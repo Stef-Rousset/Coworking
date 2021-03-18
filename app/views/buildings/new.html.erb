@@ -1,0 +1,10 @@
+<h2>Créer un nouvel immeuble</h2>
+
+<%= simple_form_for(@building) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :address %>
+  <%= f.input :city %>
+  <%= f.input :description %>
+  <%= f.input :photo, as: :file %>
+  <%= f.submit 'Valider', class: 'btn btn-secondary' %>
+<% end %>

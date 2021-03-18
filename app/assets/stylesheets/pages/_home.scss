@@ -1,20 +1,35 @@
 // Specific CSS for your home-page
-.banner {
-  text-align: center;
-  width: 100vw;
-  height: 40vh;
-  background-size: cover;
-  background-position: center;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-  padding: 130px 0;
+.intro {
+  margin: 2rem;
+  text-align: justify;
 }
-.title h1 {
-  margin: 0;
-  font-size: 48px;
-  font-weight: bold;
+.intro__services {
+  margin: 2rem 0;
 }
-.title h2 {
-  font-size: 32px;
-  opacity: 0.8;
+.buildings {
+  margin: 2rem;
+}
+.building-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 2rem;
+}
+.building-card {
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+  width: 40%;
+  margin-bottom: 2rem;
+}
+.building-card a {
+  display: flex;
+  color: black;
+  text-decoration: none;
+}
+.building-card__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+
 }

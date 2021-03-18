@@ -1,6 +1,49 @@
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.1)), url(https://images.unsplash.com/photo-1594732832278-abd644401426?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=3000&q=80)">
-  <div class="title">
-    <h1>Bienvenue chez CoWoring</h1>
-    <h2>Le spécialiste du coworking tech</h2>
+<section>
+  <div class="intro">
+    <div class="intro__esprit">
+      <h2>L'esprit Coworking</h2>
+      <p>Nos espaces de coworking sont pensés pour la collaboration. Choisissez
+         votre centre idéal parmi nos différentes adresses, et venez travailler au sein
+         d'une communauté de professionnels qui vous ressemblent. Nous vous proposons
+         de réserver un bureau privé ou de réserver un poste de travail au sein de
+         nos espaces partagés.
+      </p>
+    </div>
+    <div class="intro__services">
+      <h2>Nos services</h2>
+      <p>Nos espaces de coworking sont entièrement équipés, vous pouvez vous mettre au travail dès votre arrivée !
+        Nous mettons à votre dispositon:
+        <ul>
+          <li>Wi-Fi haut débit et sécurisé</li>
+          <li>Imprimantes avec scanner</li>
+          <li>Casiers</li>
+          <li>Espace détente</li>
+          <li>Espace de restauration rapide</li>
+          <li>Et plus encore...</li>
+        </ul>
+      </p>
+    </div>
   </div>
-</div>
+  <div class="buildings">
+    <h2>Découvrez nos différents espaces</h2>
+    <div class="building-cards">
+      <% @buildings.each do |building| %>
+        <div class="building-card">
+          <%= link_to building_path(building) do %>
+            <div class="building-card__image">
+              <% if building.photo.attached? %>
+                <%= cl_image_tag building.photo.key, width: 250, height: 300, crop: :fill %>
+              <% else %>
+                <img src="https://res.cloudinary.com/du5qhnalh/image/upload/v1616058436/harry-shelton-pPxhM0CRzl4-unsplash-2_omkmo7.jpg" alt="buliding">
+              <% end %>
+            </div>
+            <div class="building-card__text">
+              <h3><%= building.name %></h3>
+              <p><%= building.address %> </p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
