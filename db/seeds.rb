@@ -68,40 +68,52 @@ building_three.photos.attach(io: photo_two, filename: 'office_three_cowork', con
 puts 'buildings done'
 puts 'creating offices'
 
-10.times do
-  price = 1.5
+Office.create!(space: "alone", price: 1.0, name: "bureau-0", building_id: building_one.id )
+9.times do |number|
+  price = 1.0
   space = "alone"
-  Office.create!(space: space, price: price, building_id: building_one.id)
+  name = "bureau-#{number + 1}"
+  Office.create!(space: space, price: price, name: name, building_id: building_one.id)
 end
 
-20.times do
+Office.create!(space: "cowork", price: 0.5, name: "place-0", building_id: building_one.id )
+19.times do |number|
   price = 0.5
   space = "cowork"
-  Office.create!(space: space, price: price, building_id: building_one.id)
+  name = "place-#{number + 1}"
+  Office.create!(space: space, price: price, name: name, building_id: building_one.id)
 end
 
-15.times do
-  price = 1
+Office.create!(space: "alone", price: 1.0, name: "bureau-0", building_id: building_two.id)
+9.times do |number|
+  price = 1.0
   space = "alone"
-  Office.create!(space: space, price: price, building_id: building_two.id)
+  name = "bureau-#{number + 1}"
+  Office.create!(space: space, price: price, name: name, building_id: building_two.id)
 end
 
-30.times do
+Office.create!(space: "cowork", price: 0.5, name: "place-0", building_id: building_two.id)
+19.times do |number|
   price = 0.5
   space = "cowork"
-  Office.create!(space: space, price: price, building_id: building_two.id)
+  name = "place-#{number + 1}"
+  Office.create!(space: space, price: price, name: name, building_id: building_two.id)
 end
 
-10.times do
-  price = 1
+Office.create!(space: "alone", price: 0.75, name: "bureau-0", building_id: building_three.id)
+14.times do |number|
+  price = 0.75
   space = "alone"
-  Office.create!(space: space, price: price, building_id: building_three.id)
+  name = "bureau-#{number + 1}"
+  Office.create!(space: space, price: price, name: name, building_id: building_three.id)
 end
 
-25.times do
-  price = 0.5
+Office.create!(space: "cowork", price: 0.25, name: "place-0", building_id: building_three.id)
+24.times do |number|
+  price = 0.25
   space = "cowork"
-  Office.create!(space: space, price: price, building_id: building_three.id)
+  name = "place-#{number + 1}"
+  Office.create!(space: space, price: price, name: name, building_id: building_three.id)
 end
 puts "offices done"
 

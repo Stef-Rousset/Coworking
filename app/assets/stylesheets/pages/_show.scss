@@ -2,14 +2,13 @@
   margin-top : 3rem;
   display: flex;
   justify-content: space-between;
-}
-.building-show h2 {
+  h2 {
   margin-bottom: 1rem;
+  }
 }
 .building-show__images {
   display: flex;
   height: 60vh;
-
 }
 .little-photos {
   display: flex;
@@ -20,9 +19,13 @@
   display: flex;
   flex-direction: column;
   margin: 0 2rem;
+  p {
+    text-align: justify;
+  }
 }
-.building-show__text p {
-  text-align: justify;
+.link {
+  margin-top: 2rem;
+  margin-left: 2rem;
 }
 .address {
   font-style: italic;

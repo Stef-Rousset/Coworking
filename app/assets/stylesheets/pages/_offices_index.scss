@@ -1,0 +1,12 @@
+.offices-details {
+  display: flex;
+  justify-content: space-between;
+  width: 90vh;
+  margin: 2rem auto;
+}
+.offices-list-cowork, .offices-list-alone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+

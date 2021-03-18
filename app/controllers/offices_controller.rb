@@ -1,8 +1,10 @@
 class OfficesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index]
   before_action :set_office, only: [:edit, :destroy]
 
   def index
-    @offices = Office.all
+    @building = Building.find(params[:building_id])
+    @offices = @building.offices
   end
 
   def new
@@ -18,6 +20,11 @@ class OfficesController < ApplicationController
     end
   end
 
+  def destroy
+    @office.destroy
+    redirect_to building_offices_path
+  end
+
   private
 
   def set_office
@@ -25,7 +32,7 @@ class OfficesController < ApplicationController
   end
 
   def office_params
-    params.require(:office).permit(:price, :space, :building_id)
+    params.require(:office).permit(:price, :space, :name, :building_id)
   end
 
 end
