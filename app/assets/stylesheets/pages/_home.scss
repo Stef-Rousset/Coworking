@@ -11,7 +11,7 @@
 }
 .building-cards {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
   align-items: center;
   margin-top: 2rem;
@@ -20,6 +20,7 @@
   box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
   width: 40%;
   margin-bottom: 2rem;
+  background-color: white;
 }
 .building-card a {
   display: flex;

@@ -3,6 +3,7 @@ class BuildingsController < ApplicationController
   before_action :set_building, only: [:show, :destroy]
 
   def show
+    @offices = @building.offices
   end
 
   def new
@@ -26,11 +27,11 @@ class BuildingsController < ApplicationController
   private
 
   def set_building
-    @building = Building.find(params[:id])
+    @building = Building.includes(:offices).find(params[:id])
   end
 
   def building_params
-    params.require(:building).permit(:name, :address, :city, :description, :photo)
+    params.require(:building).permit(:name, :address, :description, photos: [])
   end
 
 end
