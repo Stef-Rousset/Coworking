@@ -29,7 +29,7 @@ gem 'faker'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'devise'
-
+gem 'cloudinary'
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'

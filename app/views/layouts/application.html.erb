@@ -10,12 +10,19 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   </head>
 
   <body>
     <%= render 'shared/navbar' %>
+    <% if controller.controller_name == "pages" && controller.action_name == "home" %>
+      <%= render "shared/banner" %>
+    <% end %>
+    <div class="main-container">
     <%= render 'shared/flashes' %>
-
     <%= yield %>
+    </div>
   </body>
 </html>
