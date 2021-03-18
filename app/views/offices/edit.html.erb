@@ -1,0 +1,12 @@
+<div class="edit-office">
+  <h2>Modifier le bureau <%= @office.name%></h2>
+  <div class="edit-office_form">
+    <%= simple_form_for(@office) do |f| %>
+      <%= f.input :name, :label => "Nom" %>
+      <%= f.input :price, :label => "Prix / min" %>
+      <%= f.input :space, :collection => ["alone", "cowork"]  %>
+      <%= f.submit "Valider", class: 'btn btn-secondary' %>
+    <% end %>
+  </div>
+  <%= link_to "Back", building_offices_path(@building), class: 'btn btn-secondary back' %>
+</div>

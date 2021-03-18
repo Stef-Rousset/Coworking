@@ -1,0 +1,8 @@
+<%= simple_form_for([@building, @office]) do |f| %>
+  <%= f.input :name, :label => "Nom" %>
+  <%= f.input :price, :label => "Prix / min" %>
+  <%= f.input :space, :collection => ["alone", "cowork"]  %>
+  <%= f.submit "Valider", class: 'btn btn-secondary' %>
+<% end %>
+
+

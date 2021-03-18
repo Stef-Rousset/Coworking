@@ -23,7 +23,11 @@
       </ul>
     </div>
     <div class="link">
-      <%= link_to "Liste des bureaux", building_offices_path(@building), class: 'btn btn-secondary' %>
+      <% if @building.offices.empty? %>
+        <%= link_to "Créer les bureaux", new_building_office_path(@building) %>
+      <% else %>
+        <%= link_to "Liste des bureaux", building_offices_path(@building), class: 'btn btn-secondary' %>
+      <% end %>
     </div>
   </div>
 </div>

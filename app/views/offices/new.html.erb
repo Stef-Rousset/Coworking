@@ -1,0 +1,8 @@
+<div class="new-office">
+  <h2>Ajouter un nouveau bureau à l'<%= @building.name%></h2>
+  <div class="new-office_form">
+    <%= render 'form' %>
+  </div>
+  <%= link_to "Back", building_offices_path(@building), class: 'btn btn-secondary back' %>
+</div>
+
