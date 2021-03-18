@@ -1,14 +1,27 @@
 <div class="building-show">
   <div class="building-show__images">
-
+    <%= cl_image_tag @building.photos.first.key, width: 300, heigth: 400, crop: :fill %>
+    <div class="little-photos">
+      <% @building.photos.last(2).each do |photo| %>
+        <%= cl_image_tag photo.key, width: 250, heigth: 200, crop: :fill  %>
+      <% end %>
+    </div>
   </div>
   <div class="building-show__text">
-    <h2><%= @building.name %> </h2>
-    <p><%= @building.address %> </p>
-    <p><%= @building.city %> </p>
-    <p><%= @building.description %> </p>
+    <div class="building-show__text infos">
+      <h2><%= @building.name %></h2>
+      <p><span class="address"><%= @building.address %></span></p>
+      <p><%= @building.description %> </p>
+      <p><%= @offices.alone.count %> bureaux privés</p>
+      <p><%= @offices.cowork.count %> places en cowork</p>
+    </div>
+    <div class="building-show__text prices">
+      <h2>Tarifs</h2>
+      <ul>
+        <li>Bureau privé : <span class="office-price"><%= @offices.alone.first.price * 60 %> <i class="fas fa-euro-sign"></i>/h</span></li>
+        <li>En espace coworking : <span class="office-price"><%= @offices.cowork.first.price * 60 %> <i class="fas fa-euro-sign"></i>/h</span></li>
+      </ul>
+    </div>
   </div>
-  <div class="building-show__prices">
 
-  </div>
 </div>

@@ -1,0 +1,36 @@
+.building-show {
+  margin-top : 3rem;
+  display: flex;
+  justify-content: space-between;
+}
+.building-show h2 {
+  margin-bottom: 1rem;
+}
+.building-show__images {
+  display: flex;
+  height: 60vh;
+
+}
+.little-photos {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.building-show__text {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2rem;
+}
+.building-show__text p {
+  text-align: justify;
+}
+.address {
+  font-style: italic;
+  opacity: 0.7;
+}
+.prices {
+  margin-top: 2rem;
+}
+.office-price {
+  font-weight: bold;
+}

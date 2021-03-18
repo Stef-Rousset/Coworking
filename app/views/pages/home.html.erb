@@ -31,8 +31,8 @@
         <div class="building-card">
           <%= link_to building_path(building) do %>
             <div class="building-card__image">
-              <% if building.photo.attached? %>
-                <%= cl_image_tag building.photo.key, width: 250, height: 300, crop: :fill %>
+              <% if building.photos.attached? %>
+                <%= cl_image_tag building.photos.first.key, width: 250, height: 300, crop: :fill %>
               <% else %>
                 <img src="https://res.cloudinary.com/du5qhnalh/image/upload/v1616058436/harry-shelton-pPxhM0CRzl4-unsplash-2_omkmo7.jpg" alt="buliding">
               <% end %>
