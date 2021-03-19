@@ -1,5 +1,4 @@
 class OfficesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :new, :create, :edit,:update, :destroy ]
   before_action :set_office, only: [:edit,:update, :destroy]
   before_action :set_building, only: [:edit, :update, :destroy]
 
