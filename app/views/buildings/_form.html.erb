@@ -1,0 +1,11 @@
+<div class="form-title">
+  <h1><%= yield(:title) %></h1>
+  <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-secondary' %>
+</div>
+<%= simple_form_for(@building) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :address %>
+  <%= f.input :description, input_html: { rows: 6 } %>
+  <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+  <%= f.submit 'Valider', class: 'btn btn-secondary' %>
+<% end %>

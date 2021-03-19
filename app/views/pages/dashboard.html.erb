@@ -1,0 +1,17 @@
+<h1>Dashboard</h1>
+<div class="dashboard-title">
+  <h2>Liste des buildings</h2>
+  <%= link_to "Créer un immeuble", new_building_path, class: 'btn btn-secondary' %>
+</div>
+<div class="dasboard-list">
+  <ul>
+    <% @buildings.each do |building| %>
+    <li>
+    <%= building.name %>,
+    <%= link_to '<i class="far fa-edit"></i>'.html_safe, edit_building_path(building) %>,
+    <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, building_path(building), method: :delete, data: { confirm: "Are you sure?" } %>,
+    <%= link_to "Liste des bureaux", building_offices_path(building) %>
+    </li>
+    <% end %>
+  </ul>
+</div>

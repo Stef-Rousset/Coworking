@@ -9,7 +9,20 @@
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %>
-
+    <%= f.input :first_name,
+                required: true,
+                autofocus: true,
+                label: "Prénom",
+                input_html: { autocomplete: "Prénom" }%>
+    <%= f.input :last_name,
+                required: true,
+                autofocus: true,
+                label: "Nom",
+                input_html: { autocomplete: "Nom" }%>
+    <%= f.input :email,
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "email" }%>
     <%= f.input :password,
                 hint: "leave it blank if you don't want to change it",
                 required: false,
@@ -21,15 +34,16 @@
                 hint: "we need your current password to confirm your changes",
                 required: true,
                 input_html: { autocomplete: "current-password" } %>
+    <%= f.input :admin, as: :boolean, checked_value: true, unchecked_value: false %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Update" %>
+    <%= f.button :submit, "Enregistrer", class: 'btn btn-secondary' %>
   </div>
-<% end %>
+<% end %><br>
 
 <h3>Cancel my account</h3>
 
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
-<%= link_to "Back", :back %>
+<%= link_to "Back", :back, class: 'btn btn-secondary' %><br>

@@ -4,9 +4,23 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :first_name,
+                required: true,
+                autofocus: true,
+                label: "Prénom",
+                placeholder: "John",
+                input_html: { autocomplete: "Prénom" }%>
+    <%= f.input :last_name,
+                required: true,
+                autofocus: true,
+                label: "Nom",
+                placeholder: "Smith",
+                input_html: { autocomplete: "Nom" }%>
     <%= f.input :email,
                 required: true,
                 autofocus: true,
+                label: "Email",
+                placeholder: "john.smith@gmail.com",
                 input_html: { autocomplete: "email" }%>
     <%= f.input :password,
                 required: true,
@@ -15,11 +29,12 @@
     <%= f.input :password_confirmation,
                 required: true,
                 input_html: { autocomplete: "new-password" } %>
+    <%= f.input :admin, as: :boolean, checked_value: true, unchecked_value: false %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+    <%= f.button :submit, "Soumettre", class: 'btn btn-secondary' %>
   </div>
-<% end %>
+<% end %><br>
 
 <%= render "devise/shared/links" %>
