@@ -16,21 +16,10 @@ puts 'delete buildings'
 Building.destroy_all
 
 
-puts 'creating first user'
-  User.create!(first_name: "paul", last_name: "martin", email: "paul.martin@gmail.com", password: "123456")
-puts "first user done"
+puts 'creating one user'
+  User.create!(first_name: "paul", last_name: "martin", email: "paul.martin@gmail.com", password: "123456", admin: true)
+puts "user done"
 
-puts "creating 5 random users"
-
-5.times do
-  first_name = Faker::Name.first_name
-  last_name = Faker::Name.last_name
-  email = Faker::Internet.email
-  password = Faker::String.random(length: 6..10)
-  User.create!(first_name: first_name, last_name: last_name, email: email, password: password)
-end
-
-puts 'users done'
 puts "creating buildings"
 
 building_one = Building.create!(name: "Espace Foch", address: '55 avenue Foch 75007 Paris',
