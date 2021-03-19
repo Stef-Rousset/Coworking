@@ -59,44 +59,29 @@ puts 'creating offices'
 
 10.times do |number|
   price = 1.0
-  space = "alone"
+  places_number = 1
   name = "bureau-#{number + 1}"
-  Office.create!(space: space, price: price, name: name, building_id: building_one.id)
+  Office.create!(places_number: places_number, price: price, name: name, building_id: building_one.id)
 end
+Office.create!(places_number: 20, price: 0.5, name: "cowork", building_id: building_one.id)
 
-20.times do |number|
-  price = 0.5
-  space = "cowork"
-  name = "place-#{number + 1}"
-  Office.create!(space: space, price: price, name: name, building_id: building_one.id)
-end
 
 10.times do |number|
   price = 1.0
-  space = "alone"
+  places_number = 1
   name = "bureau-#{number + 1}"
-  Office.create!(space: space, price: price, name: name, building_id: building_two.id)
+  Office.create!(places_number: places_number, price: price, name: name, building_id: building_two.id)
 end
+Office.create!(places_number: 20, price: 0.5, name: "cowork", building_id: building_two.id)
 
-20.times do |number|
-  price = 0.5
-  space = "cowork"
-  name = "place-#{number + 1}"
-  Office.create!(space: space, price: price, name: name, building_id: building_two.id)
-end
 
 15.times do |number|
   price = 0.75
-  space = "alone"
+  places_number = 1
   name = "bureau-#{number + 1}"
-  Office.create!(space: space, price: price, name: name, building_id: building_three.id)
+  Office.create!(places_number: places_number, price: price, name: name, building_id: building_three.id)
 end
+Office.create!(places_number: 25, price: 0.25, name: "cowork", building_id: building_three.id)
 
-20.times do |number|
-  price = 0.25
-  space = "cowork"
-  name = "place-#{number + 1}"
-  Office.create!(space: space, price: price, name: name, building_id: building_three.id)
-end
 puts "offices done"
 
