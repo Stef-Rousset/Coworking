@@ -1,32 +1,26 @@
 <div class="offices-title">
   <h2>Liste des bureaux "<%= @building.name %>"</h2>
-  <%= link_to "back to dashboard", dashboard_path, class: 'btn btn-secondary' %>
+  <div class="offices-title__links">
+    <%= link_to "Ajouter un bureau", new_building_office_path(@building), class: "btn btn-secondary" %>
+    <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-secondary' %>
+  </div>
 </div>
 <div class="offices-details">
-  <div class="offices-list-cowork">
-    <h3>Espace de coworking</h3>
-    <ul>
-      <% @offices.cowork.each do |office| %>
-        <li><%= office.name %>: <%= office.price %><i class="fas fa-euro-sign"></i>/min,
-          <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>,
+  <ul>
+    <% @offices.each do |office| %>
+      <li>
+        <h3><%= office.name.capitalize %>:</h3>
+        <div class="offices-details__text">
+          <p><%= office.places_number %> place(s)</p>
+          <p><%= office.price %><i class="fas fa-euro-sign"></i>/min</p>
+        </div>
+        <div class="offices-details__links">
+          <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>
           <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, office_path(office),
               method: :delete, data: { confirm: "Are you sure" } %>
-        </li>
-      <% end %>
-    </ul>
-    <%= link_to "Ajouter un bureau", new_building_office_path(@building), class: "btn btn-secondary" %>
-  </div>
-  <div class="offices-list-alone">
-    <h3>Bureaux privés</h3>
-    <ul>
-      <% @offices.alone.each do |office| %>
-        <li><%=  office.name %>: <%= office.price %><i class="fas fa-euro-sign"></i>/min,
-          <%= link_to '<i class="far fa-edit"></i>'.html_safe, edit_office_path(office) %>,
-          <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, office_path(office), method: :delete, data: { confirm: "Are you sure" } %>
-        </li>
-      <% end %>
-    </ul>
-    <%= link_to "Ajouter un bureau", new_building_office_path(@building), class: "btn btn-secondary" %>
-  </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
 </div>
 

@@ -5,14 +5,24 @@
   margin-top: 2rem;
 }
 .offices-details {
-  display: flex;
-  justify-content: space-between;
   width: 90vh;
   margin: 2rem auto;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    list-style-type: none;
+  }
+  li {
+    width: 30%;
+    background-color: white;
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
 }
-.offices-list-cowork, .offices-list-alone {
+.offices-details__text, .offices-details__links {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 }
 
