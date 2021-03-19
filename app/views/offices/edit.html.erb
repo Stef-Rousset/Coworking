@@ -3,6 +3,7 @@
   <div class="edit-office_form">
     <%= simple_form_for(@office) do |f| %>
       <%= f.input :name, :label => "Nom" %>
+      <%= f.input :office_type, as: :radio_buttons, collection: [['bureau privé', 1], ['place en cowork', 2]] %>
       <%= f.input :price, :label => "Prix / min" %>
       <%= f.input :places_number, :label => "Nombre de places"  %>
       <%= f.submit "Valider", class: 'btn btn-secondary' %>

@@ -61,27 +61,30 @@ puts 'creating offices'
   price = 1.0
   places_number = 1
   name = "bureau-#{number + 1}"
-  Office.create!(places_number: places_number, price: price, name: name, building_id: building_one.id)
+  office_type = 1
+  Office.create!(places_number: places_number, price: price, name: name, office_type: 1, building_id: building_one.id)
 end
-Office.create!(places_number: 20, price: 0.5, name: "cowork", building_id: building_one.id)
+Office.create!(places_number: 20, price: 0.5, name: "cowork", office_type: 2, building_id: building_one.id)
 
 
 10.times do |number|
   price = 1.0
   places_number = 1
   name = "bureau-#{number + 1}"
-  Office.create!(places_number: places_number, price: price, name: name, building_id: building_two.id)
+  office_type = 1
+  Office.create!(places_number: places_number, price: price, name: name, office_type: 1, building_id: building_two.id)
 end
-Office.create!(places_number: 20, price: 0.5, name: "cowork", building_id: building_two.id)
+Office.create!(places_number: 20, price: 0.5, name: "cowork", office_type: 2, building_id: building_two.id)
 
 
 15.times do |number|
   price = 0.75
   places_number = 1
   name = "bureau-#{number + 1}"
-  Office.create!(places_number: places_number, price: price, name: name, building_id: building_three.id)
+  office_type = 1
+  Office.create!(places_number: places_number, price: price, name: name, office_type: 1, building_id: building_three.id)
 end
-Office.create!(places_number: 25, price: 0.25, name: "cowork", building_id: building_three.id)
+Office.create!(places_number: 25, price: 0.25, name: "cowork", office_type: 2, building_id: building_three.id)
 
 puts "offices done"
 
