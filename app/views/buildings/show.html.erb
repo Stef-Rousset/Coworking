@@ -18,8 +18,18 @@
     <div class="building-show__text prices">
       <h2>Tarifs</h2>
       <ul>
-        <li>Bureau privé : <span class="office-price"><%= @offices.alone.first.price * 60 %> <i class="fas fa-euro-sign"></i>/h</span></li>
-        <li>En espace coworking : <span class="office-price"><%= @offices.cowork.first.price * 60 %> <i class="fas fa-euro-sign"></i>/h</span></li>
+        <li>Bureau privé :
+          <span class="office-price">
+            <%= (@offices.alone.first.price * 60).to_s.match?(/\d+.0\z/) ? (@offices.alone.first.price * 60).to_i : (@offices.alone.first.price * 60) %>
+            <i class="fas fa-euro-sign"></i>/h
+          </span>
+        </li>
+        <li>En espace coworking :
+          <span class="office-price">
+            <%= (@offices.cowork.first.price * 60).to_s.match?(/\d+.0\z/) ? (@offices.cowork.first.price * 60).to_i : (@offices.cowork.first.price * 60) %>
+            <i class="fas fa-euro-sign"></i>/h
+          </span>
+        </li>
       </ul>
     </div>
     <div class="link">

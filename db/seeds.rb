@@ -68,48 +68,42 @@ building_three.photos.attach(io: photo_two, filename: 'office_three_cowork', con
 puts 'buildings done'
 puts 'creating offices'
 
-Office.create!(space: "alone", price: 1.0, name: "bureau-0", building_id: building_one.id )
-9.times do |number|
+10.times do |number|
   price = 1.0
   space = "alone"
   name = "bureau-#{number + 1}"
   Office.create!(space: space, price: price, name: name, building_id: building_one.id)
 end
 
-Office.create!(space: "cowork", price: 0.5, name: "place-0", building_id: building_one.id )
-19.times do |number|
+20.times do |number|
   price = 0.5
   space = "cowork"
   name = "place-#{number + 1}"
   Office.create!(space: space, price: price, name: name, building_id: building_one.id)
 end
 
-Office.create!(space: "alone", price: 1.0, name: "bureau-0", building_id: building_two.id)
-9.times do |number|
+10.times do |number|
   price = 1.0
   space = "alone"
   name = "bureau-#{number + 1}"
   Office.create!(space: space, price: price, name: name, building_id: building_two.id)
 end
 
-Office.create!(space: "cowork", price: 0.5, name: "place-0", building_id: building_two.id)
-19.times do |number|
+20.times do |number|
   price = 0.5
   space = "cowork"
   name = "place-#{number + 1}"
   Office.create!(space: space, price: price, name: name, building_id: building_two.id)
 end
 
-Office.create!(space: "alone", price: 0.75, name: "bureau-0", building_id: building_three.id)
-14.times do |number|
+15.times do |number|
   price = 0.75
   space = "alone"
   name = "bureau-#{number + 1}"
   Office.create!(space: space, price: price, name: name, building_id: building_three.id)
 end
 
-Office.create!(space: "cowork", price: 0.25, name: "place-0", building_id: building_three.id)
-24.times do |number|
+20.times do |number|
   price = 0.25
   space = "cowork"
   name = "place-#{number + 1}"
