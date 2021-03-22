@@ -1,33 +1,21 @@
 <section>
   <div class="intro">
     <div class="intro__esprit">
-      <h2>L'esprit Coworking</h2>
-      <p class="text">Nos espaces de coworking sont pensés pour la collaboration. Choisissez
-         votre centre idéal parmi nos différentes adresses, et venez travailler au sein
-         d'une communauté de professionnels qui vous ressemblent. Nous vous proposons
-         de réserver un bureau privé ou de réserver un poste de travail au sein de
-         nos espaces partagés.
+      <h2><%= t '.intro-title' %></h2>
+      <p class="text"><%= t '.intro-text' %>
       </p>
     </div>
     <div class="intro__services">
-      <h2>Nos services</h2>
+      <h2><%= t '.services-title' %></h2>
       <div class="text">
-        <p>Nos espaces de coworking sont entièrement équipés, vous pouvez vous mettre au travail dès votre arrivée !
-          Nous mettons à votre dispositon:
-          <ul>
-            <li>Wi-Fi haut débit et sécurisé</li>
-            <li>Imprimantes avec scanner</li>
-            <li>Casiers</li>
-            <li>Espace détente</li>
-            <li>Espace de restauration rapide</li>
-            <li>Et plus encore...</li>
-          </ul>
+        <p><%= t '.services-text_html' %>
+          <%= t '.services-list_html' %>
         </p>
       </div>
     </div>
   </div>
   <div class="buildings">
-    <h2>Découvrez nos différents espaces</h2>
+    <h2><%= t '.buildings-title' %></h2>
     <div class="building-cards">
       <% @buildings.each do |building| %>
         <div class="building-card">
@@ -40,8 +28,8 @@
               <% end %>
             </div>
             <div class="building-card__text">
-              <h3><%= building.name %></h3>
-              <p><%= building.address %> </p>
+              <h3><%= t('pages.home.building-card-name', name: building.name) %></h3>
+              <p><%= t('pages.home.building-card-address', address: building.address) %></p>
             </div>
           <% end %>
         </div>
