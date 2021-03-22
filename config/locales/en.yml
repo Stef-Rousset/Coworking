@@ -30,4 +30,47 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      user:
+        first_name: "First name"
+        last_name: "Last name"
+      building:
+        name: "Name"
+        address: "Address"
+        description: "Description"
+      office:
+        name: "Name"
+        price: "Price"
+        places_number: "Number of places"
+        office_type: "Office's type"
+  shared:
+    navbar:
+      language: "Select your language"
+    banner:
+      banner-main-title: "Welcome at CoWorking"
+      banner-subtitle: "The tech coworking specialist"
+  pages:
+    home:
+      intro-title: "The Coworking spirit"
+      intro-text: "Our coworking spaces are designed for collaboration. Choose
+          your ideal center among our different addresses, and come and work within
+          a community of professionals who resemble you. We offer you
+          to reserve a private office or to reserve a workstation within
+          our shared spaces."
+      services-title: "Our services"
+      services-text_html: "Our coworking spaces are fully equipped, you can get down to business as soon as you arrive !<br>
+           We put at your disposal:"
+      services-list_html:
+            "<li>High speed and secure Wi-Fi</li>
+            <li>Printers with scanner</li>
+            <li>Lockers</li>
+            <li>Relaxation area</li>
+            <li>fast food area</li>
+            <li>And a lot more...</li>"
+      buildings-title: "Discover our different spaces"
+      building-card-name: "%{name}"
+      building-card-address: "%{address}"
+  buildings:
+    show:
+      building-description: "%{description}"

@@ -1,0 +1,49 @@
+fr:
+  activerecord:
+    attributes:
+      user:
+        first_name: "Prénom"
+        last_name: "Nom"
+      building:
+        name: "Nom"
+        address: "Adresse"
+        description: "Description"
+      office:
+        name: "Nom"
+        price: "Prix"
+        places_number: "Nombre de places"
+        office_type: "Type de bureau"
+  shared:
+    navbar:
+      language: "Choisis ta langue"
+    banner:
+      banner-main-title: "Bienvenue chez CoWorking"
+      banner-subtitle: "Le spécialiste du coworking tech"
+  pages:
+    home:
+      intro-title: "L'esprit Coworking"
+      intro-text: "Nos espaces de coworking sont pensés pour la collaboration. Choisissez
+         votre centre idéal parmi nos différentes adresses, et venez travailler au sein
+         d'une communauté de professionnels qui vous ressemblent. Nous vous proposons
+         de réserver un bureau privé ou de réserver un poste de travail au sein de
+         nos espaces partagés."
+      services-title: "Nos services"
+      services-text_html: "Nos espaces de coworking sont entièrement équipés, vous pouvez vous mettre au travail dès votre arrivée !<br>
+          Nous mettons à votre dispositon: "
+      services-list_html:
+          "<ul>
+            <li>Wi-Fi haut débit et sécurisé</li>
+            <li>Imprimantes avec scanner</li>
+            <li>Casiers</li>
+            <li>Espace détente</li>
+            <li>Espace de restauration rapide</li>
+            <li>Et plus encore...</li>
+          </ul>"
+      buildings-title: "Découvrez nos différents espaces"
+      building-card-name: "%{building.name}"
+      building-card-address: "%{building.address}"
+      building-card-name: "%{name}"
+      building-card-address: "%{address}"
+  buildings:
+    show:
+      building-description: "%{description}"
