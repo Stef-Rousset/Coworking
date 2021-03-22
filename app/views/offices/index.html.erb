@@ -18,7 +18,21 @@
           <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>
           <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, office_path(office),
               method: :delete, data: { confirm: "Are you sure" } %>
+          <%= link_to 'Add <i class="fas fa-percentage"></i>'.html_safe, new_office_discount_path(office)%>
         </div>
+        <% if !office.discounts.empty? %>
+          <div class="discounts">
+            <% office.discounts.each do |discount| %>
+            <ul>
+              <li>du <%= discount.start_date %> au <%= discount.end_date %>:
+                <%= rounded_number(discount.amount, 100) %>% de réduction
+                <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
+                method: :delete, data: { confirm: "Are you sure" } %>
+              </li>
+            </ul>
+            <% end %>
+          </div>
+        <% end %>
       </li>
     <% end %>
   </ul>

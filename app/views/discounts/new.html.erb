@@ -1,0 +1,9 @@
+<h1>Ajouter une réduction</h1>
+
+<%= simple_form_for([@office, @discount]) do |f| %>
+  <%= f.input :amount, :label => "Montant" %>
+  <%= f.input :start_date, as: :date %>
+  <%= f.input :end_date, as: :date %>
+  <%= f.submit "Valider", class: 'btn btn-secondary' %>
+<% end %>
+

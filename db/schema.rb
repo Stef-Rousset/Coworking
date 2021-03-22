@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_152641) do
+ActiveRecord::Schema.define(version: 2021_03_22_163549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 2021_03_19_152641) do
     t.text "description"
   end
 
+  create_table "discounts", force: :cascade do |t|
+    t.float "amount"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "office_id", null: false
+    t.index ["office_id"], name: "index_discounts_on_office_id"
+  end
+
   create_table "offices", force: :cascade do |t|
     t.float "price"
     t.bigint "building_id", null: false
@@ -79,5 +89,6 @@ ActiveRecord::Schema.define(version: 2021_03_19_152641) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "discounts", "offices"
   add_foreign_key "offices", "buildings"
 end
