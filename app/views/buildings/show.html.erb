@@ -13,20 +13,22 @@
       <p><span class="address"><%= @building.address %></span></p>
       <p><%= @building.description %> </p>
       <p><%= @offices.privates.count %> bureaux privés</p>
-      <p><%= @offices.coworks.places_number %> places en cowork</p>
+      <p><%= @offices.coworks.first.places_number %> places en cowork</p>
     </div>
     <div class="building-show__text prices">
       <h2>Tarifs</h2>
       <ul>
         <li>Bureau privé :
           <span class="office-price">
-            <%= (@offices.privates.first.price * 60).to_s.match?(/\d+.0\z/) ? (@offices.privates.first.price * 60).to_i : (@offices.privates.first.price * 60) %>
+            <%= rounded_number(@offices.limit(1).privates.first.price, 60) %>
+            <%#= (@offices.privates.first.price * 60).to_s.match?(/\d+.0\z/) ? (@offices.privates.first.price * 60).to_i : (@offices.privates.first.price * 60) %>
             <i class="fas fa-euro-sign"></i>/h
           </span>
         </li>
         <li>En espace coworking :
           <span class="office-price">
-            <%= (@offices.coworks.price * 60).to_s.match?(/\d+.0\z/) ? (@offices.coworks.price * 60).to_i : (@offices.coworks.price * 60) %>
+            <%= rounded_number(@offices.limit(1).coworks.first.price, 60) %>
+            <%#= (@offices.coworks.first.price * 60).to_s.match?(/\d+.0\z/) ? (@offices.coworks.first.price * 60).to_i : (@offices.coworks.first.price * 60) %>
             <i class="fas fa-euro-sign"></i>/h
           </span>
         </li>

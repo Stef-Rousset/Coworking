@@ -12,7 +12,7 @@
         <h3><%= office.name.capitalize %>:</h3>
         <div class="offices-details__text">
           <p><%= office.places_number %> place(s)</p>
-          <p><%= office.price %><i class="fas fa-euro-sign"></i>/min</p>
+          <p><%= rounded_number(office.price, 1) %><i class="fas fa-euro-sign"></i>/min</p>
         </div>
         <div class="offices-details__links">
           <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>
