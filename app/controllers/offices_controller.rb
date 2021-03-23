@@ -14,8 +14,8 @@ class OfficesController < ApplicationController
 
   def create
     @building = Building.find(params[:building_id])
-    @office = Office.new(office_params)
-    @office.building = @building
+    @office = Office.new(office_params.to_h.merge({building_id: params[:building_id]}))
+    #@office.building = @building
     if @office.save!
       redirect_to building_offices_path(@building)
     else
