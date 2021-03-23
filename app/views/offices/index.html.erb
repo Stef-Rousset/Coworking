@@ -20,7 +20,7 @@
         <% end %>
       </div>
       <% if !current_user.admin? %>
-        <%= link_to 'Réserver', '#', class: 'btn btn-secondary' %>
+        <%= link_to 'Réserver', office_path(office), class: 'btn btn-secondary' %>
       <% end %>
       <% if current_user.admin? %>
         <div class="office-card__links">
@@ -42,15 +42,17 @@
         <div class="discounts">
         <h3>Réductions</h3>
           <% office.discounts.each do |discount| %>
-            <div class="discounts-detail">
-              <p><i class="fas fa-tag"></i> <%= rounded_number(discount.amount, 100) %> %
-                (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
-              </p>
-              <% if current_user.admin? %>
-                <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
-                method: :delete, remote: true, data: { confirm: "Are you sure" } %>
-              <% end %>
-            </div>
+            <% if discount.end_date >= Date.today && !current_user.admin? %>
+              <div class="discounts-detail">
+                <p><i class="fas fa-tag"></i> <%= rounded_number(discount.amount, 100) %> %
+                  (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
+                </p>
+                <% if current_user.admin? %>
+                  <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
+                  method: :delete, remote: true, data: { confirm: "Are you sure" } %>
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
         </div>
       <% end %>

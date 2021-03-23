@@ -87,4 +87,12 @@ end
 Office.create!(places_number: 25, price: 0.25, name: "cowork", office_type: 2, building_id: building_three.id)
 
 puts "offices done"
+puts "creating services"
+
+Service.create!(name: "café", price: 1.5)
+Service.create!(name: "thé", price: 2)
+Service.create!(name: "impression", price: 0.5)
+Service.create!(name: "scan", price: 0.5)
+
+puts "services done"
 

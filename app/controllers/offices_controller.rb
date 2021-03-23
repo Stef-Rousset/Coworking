@@ -1,11 +1,14 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: [:edit,:update, :destroy]
-  before_action :set_building, only: [:edit, :update, :destroy]
+  before_action :set_office, only: [:show, :edit,:update, :destroy]
+  before_action :set_building, only: [:show,:edit, :update, :destroy]
 
   def index
     @building = Building.find(params[:building_id])
     @offices = @building.offices
     @discount = Discount.new
+  end
+
+  def show
   end
 
   def new
