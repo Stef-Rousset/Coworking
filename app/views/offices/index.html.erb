@@ -6,15 +6,14 @@
   </div>
 </div>
 <div class="offices-details">
-  <ul>
     <% @offices.each do |office| %>
-      <li>
+      <div class="office-card">
         <h3><%= office.name.capitalize %>:</h3>
-        <div class="offices-details__text">
+        <div class="office-card__text">
           <p><%= office.places_number %> place(s)</p>
           <p><%= rounded_number(office.price, 1) %><i class="fas fa-euro-sign"></i>/min</p>
         </div>
-        <div class="offices-details__links">
+        <div class="office-card__links">
           <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>
           <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, office_path(office),
               method: :delete, data: { confirm: "Are you sure" } %>
@@ -22,19 +21,20 @@
         </div>
         <% if !office.discounts.empty? %>
           <div class="discounts">
-            <% office.discounts.each do |discount| %>
-            <ul>
-              <li>du <%= discount.start_date %> au <%= discount.end_date %>:
-                <%= rounded_number(discount.amount, 100) %>% de réduction
-                <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
-                method: :delete, data: { confirm: "Are you sure" } %>
-              </li>
+          <h3>Réductions</h3>
+              <% office.discounts.each do |discount| %>
+                <div class="discounts-detail">
+                  <p><i class="fas fa-tag"></i> <%= rounded_number(discount.amount, 100) %> %
+                    (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
+                      <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
+                      method: :delete, data: { confirm: "Are you sure" } %>
+                  </p>
+                </div>
+              <% end %>
             </ul>
-            <% end %>
           </div>
         <% end %>
-      </li>
+      </div>
     <% end %>
-  </ul>
 </div>
 

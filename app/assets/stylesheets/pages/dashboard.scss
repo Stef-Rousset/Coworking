@@ -2,5 +2,34 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem auto;
+  margin: 2rem;
+}
+.dashboard-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 2rem;
+}
+.dashboard-building {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: white;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+  margin: 1rem;
+  padding:1rem;
+  &__links {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    & a {
+      color: black;
+      opacity: 0.6;
+    }
+    & a:hover {
+      opacity: 1;
+      text-decoration: none;
+    }
+  }
 }
