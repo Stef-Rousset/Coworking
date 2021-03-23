@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :offices, only: [:index, :new, :create]
     end
     resources :offices, only: [:edit, :update, :destroy] do
-      resources :discounts, only: [:new, :create]
+      resources :discounts, only: [:create]
     end
     resources :discounts, only: [:destroy]
   end

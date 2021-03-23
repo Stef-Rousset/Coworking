@@ -5,6 +5,7 @@ class OfficesController < ApplicationController
   def index
     @building = Building.find(params[:building_id])
     @offices = @building.offices
+    @discount = Discount.new
   end
 
   def new

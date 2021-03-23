@@ -1,9 +1,5 @@
 class DiscountsController < ApplicationController
-before_action :set_office, only: [:new, :create]
-
-  def new
-    @discount = Discount.new
-  end
+  before_action :set_office, only: [:create]
 
   def create
     @discount = Discount.new(discount_params)
@@ -11,7 +7,7 @@ before_action :set_office, only: [:new, :create]
     if @discount.save!
       redirect_to building_offices_path(@office.building.id)
     else
-      render :new
+      render 'offices/index'
     end
   end
 
