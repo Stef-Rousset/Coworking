@@ -14,6 +14,8 @@ puts 'delete offices'
 Office.destroy_all
 puts 'delete buildings'
 Building.destroy_all
+puts 'delete services'
+Service.destroy_all
 
 
 puts 'creating one user'
