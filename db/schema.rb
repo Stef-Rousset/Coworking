@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_151532) do
+ActiveRecord::Schema.define(version: 2021_03_25_143759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,17 @@ ActiveRecord::Schema.define(version: 2021_03_23_151532) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "bookings", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.bigint "user_id", null: false
+    t.bigint "office_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["office_id"], name: "index_bookings_on_office_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
   create_table "buildings", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -72,6 +83,16 @@ ActiveRecord::Schema.define(version: 2021_03_23_151532) do
     t.index ["building_id"], name: "index_offices_on_building_id"
   end
 
+  create_table "service_bookings", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "booking_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["booking_id"], name: "index_service_bookings_on_booking_id"
+    t.index ["service_id"], name: "index_service_bookings_on_service_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.float "price"
@@ -96,6 +117,10 @@ ActiveRecord::Schema.define(version: 2021_03_23_151532) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookings", "offices"
+  add_foreign_key "bookings", "users"
   add_foreign_key "discounts", "offices"
   add_foreign_key "offices", "buildings"
+  add_foreign_key "service_bookings", "bookings"
+  add_foreign_key "service_bookings", "services"
 end

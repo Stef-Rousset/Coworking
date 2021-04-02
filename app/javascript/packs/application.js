@@ -17,14 +17,23 @@ ActiveStorage.start()
 // Note(lewagon): ABOVE IS RAILS DEFAULT CONFIGURATION
 // WRITE YOUR OWN JS STARTING FROM HERE 👇
 // ----------------------------------------------------
+require("jquery")
+require("@nathanvda/cocoon")
 
 // External imports
 import "bootstrap";
+import "../plugins/fullCalendar";
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';
 
+import { services } from '../components/services' ;
+import { fullCalendar } from '../plugins/fullCalendar' ;
+
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
+  //calendar();
+  fullCalendar();
+  services();
 });

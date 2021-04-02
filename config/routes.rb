@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
     resources :offices, only: [:show, :edit, :update, :destroy] do
       resources :discounts, only: [:create]
+      resources :bookings, only: [:create]
     end
     resources :discounts, only: [:destroy]
   end

@@ -1,6 +1,6 @@
 class OfficesController < ApplicationController
-  before_action :set_office, only: [:show, :edit,:update, :destroy]
-  before_action :set_building, only: [:show,:edit, :update, :destroy]
+  before_action :set_office, only: [:show, :edit, :update, :destroy]
+  before_action :set_building, only: [:show, :edit, :update, :destroy]
 
   def index
     @building = Building.find(params[:building_id])
@@ -9,6 +9,9 @@ class OfficesController < ApplicationController
   end
 
   def show
+    @booking = Booking.new
+    @booking.service_bookings.build #4.times { @booking.service_bookings.build }
+    @services = Service.all
   end
 
   def new
@@ -17,10 +20,10 @@ class OfficesController < ApplicationController
   end
 
   def create
-    @building = Building.find(params[:building_id])
-    @office = Office.new(office_params.to_h.merge({building_id: params[:building_id]}))
+    @building = Building.find(params[:building_id]) #pour la redirection
+    #@office = Office.new(office_params.to_h.merge({building_id: params[:building_id]}))
     #@office.building = @building
-    if @office.save!
+    if Office.create!(office_params.to_h.merge({building_id: params[:building_id]}))
       redirect_to building_offices_path(@building)
     else
       render :new
