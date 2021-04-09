@@ -4,8 +4,41 @@
   align-items: center;
   margin: 2rem;
 }
+.office-discounts {
+  margin: 2rem;
+}
 .office-reservation {
   margin: 2rem;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  h3 {
+    margin: 2rem 0;
+  }
+}
+.services-fields {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.service {
+  width: 20%;
+}
+.links a {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  color: orange;
+  text-decoration: none;
+  &:hover {
+    font-weight: bold;
+    color: orange;
+    text-decoration: none;
+  }
+}
+.calendar {
+  width: 70%;
+  height: auto;
+  margin: 2rem auto;
+}
+.selected-dates {
+  background-color: orange;
 }

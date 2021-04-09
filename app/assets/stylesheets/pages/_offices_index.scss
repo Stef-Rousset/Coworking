@@ -19,9 +19,16 @@
   padding: 0.5rem;
   margin: 0.5rem;
 }
-.office-card__text, .office-card__links {
+.office-card__text, .office-card__links, .office-card__title {
   display: flex;
   justify-content: space-between;
+}
+.office-card__title p {
+  color: $orange;
+  cursor: pointer;
+}
+.modal-body a {
+  color: black;
 }
 .office-card__links a {
   font-size: 1rem;
@@ -32,21 +39,7 @@
     opacity: 1;
   }
 }
-.discounts {
-  margin: 1rem 0rem 0.5rem 0;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  width:100%;
-  background-color: $orange;
-  h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  a {
-    color: black;
-  }
-}
+
 
 
 

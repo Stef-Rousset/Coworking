@@ -12,8 +12,8 @@ class BuildingsController < ApplicationController
   end
 
   def create
-    @building = Building.new(building_params)
-    if @building.save!
+    #@building = Building.new(building_params)
+    if Building.create!(building_params)
       redirect_to dashboard_path
     else
       render :new

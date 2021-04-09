@@ -1,9 +1,9 @@
 <div class="building-show">
   <div class="building-show__images">
-    <%= cl_image_tag @building.photos.first.key, width: 300, heigth: 400, crop: :fill %>
+    <%= cl_image_tag @building.photos.first.key, crop: :fill, class: "big-building-img" %>
     <div class="little-photos">
       <% @building.photos.last(2).each do |photo| %>
-        <%= cl_image_tag photo.key, width: 250, heigth: 200, crop: :fill  %>
+        <%= cl_image_tag photo.key, crop: :fill, class: "little-building-img"  %>
       <% end %>
     </div>
   </div>

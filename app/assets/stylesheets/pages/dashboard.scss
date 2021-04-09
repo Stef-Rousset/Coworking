@@ -1,8 +1,34 @@
+.dashboard-profile {
+  margin: 2rem;
+  h2 {
+    margin-bottom: 2rem;
+  }
+  &__infos {
+    width: 50%;
+    margin: 1rem;
+    background-color: white;
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+    padding: 1rem;
+  }
+}
+.dashboard-profile__links, .dashboard-building__links {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  & a {
+    color: black;
+    opacity: 0.6;
+  }
+  & a:hover {
+    opacity: 1;
+    text-decoration: none;
+  }
+}
 .dashboard-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 2rem;
+  width: 50%;
 }
 .dashboard-list {
   display: flex;
@@ -21,15 +47,19 @@
   &__links {
     display: flex;
     justify-content: space-between;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    & a {
-      color: black;
-      opacity: 0.6;
-    }
-    & a:hover {
-      opacity: 1;
-      text-decoration: none;
-    }
   }
 }
+.reservations {
+  margin: 2rem;
+}
+.reservations-card {
+  width: 50%;
+  background-color: white;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+  margin: 1rem;
+  padding:1rem;
+  ul {
+    list-style-type: none;
+  }
+}
+

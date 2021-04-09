@@ -10,7 +10,48 @@
 <div class="offices-details">
   <% @offices.each do |office| %>
     <div class="office-card">
-      <h3><%= office.name.capitalize %></h3>
+      <div class="office-card__title">
+        <h3><%= office.name.capitalize %></h3>
+          <% if !office.discounts.empty? %>
+            <p><i class="fas fa-tag" data-toggle="modal" data-target="#modal<%= office.id %>"></i></p>
+            <!-- Modal -->
+            <div class="modal fade" id="modal<%= office.id%>" tabindex="-1" role="dialog" aria-labelledby="modal<%= office.id %>Label" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modal<%= office.id %>Label">Réductions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <% office.discounts.each do |discount| %>
+                      <ul>
+                        <% if discount.end_date >= Date.today && !current_user.admin? %>
+                          <li>
+                            <%= rounded_number(discount.amount, 100) %> %
+                              (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
+                          </li>
+                        <% else %>
+                          <li>
+                            <%= rounded_number(discount.amount, 100) %> %
+                            (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
+                            <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
+                            method: :delete, remote: true, data: { confirm: "Are you sure" } %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- end Modal -->
+        <% end %>
+      </div>
       <div class="office-card__text">
         <p><%= office.places_number %> place(s)</p>
         <% if current_user.admin? %>
@@ -35,24 +76,6 @@
             <%= f.input :start_date, as: :date %>
             <%= f.input :end_date, as: :date %>
             <%= f.submit "Valider", class: 'btn btn-secondary' %>
-          <% end %>
-        </div>
-      <% end %>
-      <% if !office.discounts.empty? %>
-        <div class="discounts">
-        <h3>Réductions</h3>
-          <% office.discounts.each do |discount| %>
-            <% if discount.end_date >= Date.today && !current_user.admin? %>
-              <div class="discounts-detail">
-                <p><i class="fas fa-tag"></i> <%= rounded_number(discount.amount, 100) %> %
-                  (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
-                </p>
-                <% if current_user.admin? %>
-                  <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
-                  method: :delete, remote: true, data: { confirm: "Are you sure" } %>
-                <% end %>
-              </div>
-            <% end %>
           <% end %>
         </div>
       <% end %>
