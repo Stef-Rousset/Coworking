@@ -47,11 +47,10 @@ if (targetDiv) {
           monthDiv.innerHTML = currentMonth + ' - ' + currentYear;
           indexMonth = 11;
           generateCalendar(currentYear, indexMonth);
-        }
-        else if (indexMonth >= 0 && indexMonth < 12) {
-        currentMonth = monthNames[indexMonth];
-        monthDiv.innerHTML = currentMonth + ' - ' + currentYear;
-        generateCalendar(currentYear, indexMonth);
+        } else if (indexMonth >= 0 && indexMonth < 12) {
+          currentMonth = monthNames[indexMonth];
+          monthDiv.innerHTML = currentMonth + ' - ' + currentYear;
+          generateCalendar(currentYear, indexMonth);
         } else if (indexMonth === 12) {
           currentMonth = monthNames[0];
           currentYear += 1;
@@ -76,19 +75,19 @@ if (targetDiv) {
         if (document.querySelectorAll('.selected').lenght === 2) {
           div.style.pointerEvents = 'none';
         } else if (typeof startDate === 'undefined') {
-        startCell = event.currentTarget;
-        startCell.classList.add('selected');
-        startDate = new Date(currentYear,indexMonth, parseInt(startCell.innerHTML,10));
-        endDate = new Date(currentYear,indexMonth, parseInt(startCell.innerHTML,10));
-        console.log(startDate);
-        console.log(endDate);
+          startCell = event.currentTarget;
+          startCell.classList.add('selected');
+          startDate = new Date(currentYear,indexMonth, parseInt(startCell.innerHTML,10));
+          endDate = new Date(currentYear,indexMonth, parseInt(startCell.innerHTML,10));
+          console.log(startDate);
+          console.log(endDate);
         } else if (typeof startDate === 'object') {
-        endCell = event.currentTarget;
-        endCell.classList.add('selected');
-        startDate  = new Date(currentYear,indexMonth, parseInt(startCell.innerHTML,10));
-        endDate  = new Date(currentYear,indexMonth, parseInt(endCell.innerHTML,10));
-        console.log(startDate);
-        console.log(endDate);
+          endCell = event.currentTarget;
+          endCell.classList.add('selected');
+          startDate  = new Date(currentYear,indexMonth, parseInt(startCell.innerHTML,10));
+          endDate  = new Date(currentYear,indexMonth, parseInt(endCell.innerHTML,10));
+          console.log(startDate);
+          console.log(endDate);
         }
     }
 

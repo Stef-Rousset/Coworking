@@ -12,6 +12,7 @@ class OfficesController < ApplicationController
     @booking = Booking.new
     @booking.service_bookings.build #4.times { @booking.service_bookings.build }
     @services = Service.all
+    @discounts = Discount.where(office_id: @office.id)
   end
 
   def new

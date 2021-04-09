@@ -30,6 +30,16 @@
   </div>
 <% else %>
   <h2>Tes réservations</h2>
-  <div class="card-reservations">
+  <div class="reservations">
+    <% @bookings.each do |booking| %>
+    <div class="reservations-card">
+      <ul>
+        <li> > <%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
+        <li>du <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
+        <li>prix</li>
+      </ul>
+
+    </div>
+    <% end %>
   </div>
 <% end %>

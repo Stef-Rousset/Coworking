@@ -1,4 +1,4 @@
 <div class="service">
-  <%= f.input :service_id, collection: @services, input_html: {data: { price:''} } %>
+  <%= f.input :service_id, collection: @services.map{ |service| [service.name, service.id, data: { price: service.price} ]}  %>
   <%= f.input :quantity, collection: 1..10 %>
 </div>
