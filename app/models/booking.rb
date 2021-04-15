@@ -8,4 +8,13 @@ class Booking < ApplicationRecord
 
   validates :start_date, presence: true
   validates :end_date, presence: true
+
+  def dates_booked
+    dates = [self.start_date]
+    while dates.last <= (self.end_date - 1)
+      dates << (dates.last + 1)
+    end
+    return dates
+  end
+
 end
