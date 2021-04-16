@@ -2,10 +2,24 @@
   <h1><%= @office.name %> (<%= @building.name %>) </h1>
   <%= link_to 'Back', building_offices_path(@building), class: 'btn btn-secondary' %>
 </div>
+<p class="dates-array">
+  <%# if @office.office_type == "privates" %>
+    <%#= @office.bookings.reduce([]){ |memo, booking|
+      memo << booking.dates_booked.map{|date| date.strftime("%Y-%m-%e")} }.flatten %>
+  <%# else %>
+    <%# result = [] %>
+    <%# @office.bookings.reduce(result){ |result, booking| result << booking.dates_booked.map{|date| date.strftime("%Y-%m-%e")} } %>
+    <%#= result.flatten.select{ |date| result.flatten.count(date) >= @office.places_number }.uniq %>
+<%# end %>
+  <% result = [] %>
+  <% @office.bookings.map{ |booking| result << booking.dates_booked.map{ |date| date.strftime("%Y-%m-%e") } }  %>
+  <% answer = result.flatten %>
+  <%= answer.select{ |date| answer.count(date) >= @office.places_number }.uniq %>
+</p>
 <div class="office-discounts">
   <h2>Réductions</h2>
   <% if @discounts.empty? %>
-    <p>Pas de réductions à venir</p>
+     <p>Pas de réductions à venir</p>
   <% else %>
     <ul class="office-discounts__details">
       <% @discounts.each do |discount| %>
@@ -17,7 +31,6 @@
     </ul>
   <% end %>
 </div>
-
 
 <div class="office-reservation">
   <h2>Votre réservation</h2>
