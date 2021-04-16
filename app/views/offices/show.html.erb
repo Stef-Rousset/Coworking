@@ -3,14 +3,18 @@
   <%= link_to 'Back', building_offices_path(@building), class: 'btn btn-secondary' %>
 </div>
 <p class="dates-array">
-  <% if @office.office_type == "privates" %>
-    <%= @office.bookings.reduce([]){ |array, booking| array << booking.dates_booked.map{|date| date.strftime("%Y-%m-%e")} }.flatten %>
-  <% else %>
-    <% result = [] %>
-    <% @office.bookings.reduce(result){ |result, booking| result << booking.dates_booked.map{|date| date.strftime("%Y-%m-%e")} } %>
-    <%#= result.flatten %>
-    <%= result.flatten.select{ |date| result.count(date) == @office.places_number }.uniq %>
-<% end %>
+  <%# if @office.office_type == "privates" %>
+    <%#= @office.bookings.reduce([]){ |memo, booking|
+      memo << booking.dates_booked.map{|date| date.strftime("%Y-%m-%e")} }.flatten %>
+  <%# else %>
+    <%# result = [] %>
+    <%# @office.bookings.reduce(result){ |result, booking| result << booking.dates_booked.map{|date| date.strftime("%Y-%m-%e")} } %>
+    <%#= result.flatten.select{ |date| result.flatten.count(date) >= @office.places_number }.uniq %>
+<%# end %>
+  <% result = [] %>
+  <% @office.bookings.map{ |booking| result << booking.dates_booked.map{ |date| date.strftime("%Y-%m-%e") } }  %>
+  <% answer = result.flatten %>
+  <%= answer.select{ |date| answer.count(date) >= @office.places_number }.uniq %>
 </p>
 <div class="office-discounts">
   <h2>Réductions</h2>

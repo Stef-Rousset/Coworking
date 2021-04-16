@@ -66,22 +66,25 @@ const fullCalendar = () => {
               // construire un array avec les dates en commun
               const unavailableDates = JSON.parse(datesArray.innerText); // transfo la string en array
               let datesInCommon = finalRangeOfDates.filter(value => unavailableDates.includes(value));
-
+              // recup la grille et les cellules
+              const table = document.querySelector('.fc-scrollgrid-sync-table');
+              const cells = document.querySelectorAll('td[data-date]');
               // au select sur une date déjà booked, disable les dates non dispo
               // et remettre à zero la zone confirm resa
               if (datesInCommon.length != 0) {
                   alert(' Date not available');
-                  const cells = document.querySelectorAll('td[data-date]');
-                  cells.forEach(cell => {
-                      if (datesArray.innerText.includes(cell.dataset.date)){
-                          cell.classList.add('disabled');
-                      }
-                      if (cell.classList.contains('selected-dates')){
+                  table.addEventListener ('click', event => {
+                    cells.forEach(cell => {
+                        if (datesArray.innerText.includes(cell.dataset.date)){
+                            cell.classList.add('disabled');
+                        }
+                        if (cell.classList.contains('selected-dates')){
                           cell.classList.remove('selected-dates');
-                      }
+                        }
+                    })
                   })
                   if (document.querySelector('.priceSummarySpan') != null) {
-                        document.querySelector('.priceSummarySpan').remove();
+                      document.querySelector('.priceSummarySpan').remove();
                   }
                   debut.innerHTML = "";
               } else {
@@ -95,8 +98,6 @@ const fullCalendar = () => {
                   // message d'alert pour l'user avec les dates selectionnees
                   alert(`Vous avez sélectionné du ${info.start.toLocaleDateString()} au ${endDate.toLocaleDateString()}`);
                   // la periode selectionnee sera en bg orange
-                  const cells = document.querySelectorAll('td[data-date]');
-                  const table = document.querySelector('.fc-scrollgrid-sync-table');
                   table.addEventListener ('click', event => {
                       cells.forEach(cell => {
                       if (cell.classList.contains('selected-dates')) {
@@ -113,8 +114,8 @@ const fullCalendar = () => {
                   let timeDifference = Math.abs(endDate - startDate);
                   const msInDays = 1000*60*60*24;
                   let numberOfDaysBooked = Math.ceil(timeDifference / msInDays + 1); //nb of milliseconds in a day
-
-                  if (discountList === null ) {
+                  // pas de discount ou un discount passe
+                  if (discountList === null || discounts.length === 0) {
                       totalPriceWithoutService = parseFloat((numberOfDaysBooked * officePrice ), 10);
                   } else {
                       discounts.forEach(discount => {
