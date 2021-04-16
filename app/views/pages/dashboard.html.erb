@@ -24,6 +24,43 @@
           <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, building_path(building), method: :delete, data: { confirm: "Are you sure?" } %>
           <%= link_to "Voir les bureaux", building_offices_path(building) %>
         </div>
+        <div class="dashboard-building__stats">
+          <h4>Statistiques</h4>
+          <p>Nombre total de réservations:
+            <%#= building.offices.total_bookings %>
+            <%= Building.where(id: building.id).joins(offices: :bookings).count %>
+          </p>
+          <p>Réservations en bureau privé:
+            <%#= building.offices.privates_bookings %>
+            <%= Building.where(id: building.id).joins(offices: :bookings).where(offices: { office_type: 1 }).count %>
+          </p>
+          <p>Réservations en cowork:
+            <%#= building.offices.coworks_bookings %>
+            <%= Building.where(id: building.id).joins(offices: :bookings).where(offices: { office_type: 2 }).count %>
+          </p>
+            <% seven_days = [] %>
+            <% total = [] %>
+            <% cafés = [] %>
+            <% thés = [] %>
+            <% impressions = [] %>
+            <% scans = [] %>
+            <% building.offices.each do |office| %>
+            <% seven_days << office.bookings.last_seven_days_bookings %>
+            <% total << office.bookings.total_number_of_services %>
+            <% cafés << office.bookings.service_count("café") %>
+            <% thés << office.bookings.service_count("thé")%>
+            <% impressions << office.bookings.service_count("impression")%>
+            <% scans << office.bookings.service_count("scan")%>
+            <% end %>
+            <p>Réservations des 7 derniers jours : <%= seven_days.sum %> </p>
+            <p>Total des services réservés : <%= total.sum %></p>
+            <ul>
+              <li>cafés : <%= cafés.sum %> </li>
+              <li>thés : <%= thés.sum %> </li>
+              <li>impressions : <%= impressions.sum %></li>
+              <li>scans : <%= scans.sum %></li>
+            </ul>
+        </div>
       </div>
       <% end %>
     </ul>

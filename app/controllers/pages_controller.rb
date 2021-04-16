@@ -6,7 +6,9 @@ class PagesController < ApplicationController
   end
 
   def dashboard
-    @buildings = Building.all
+    # charger tous les buildings avec eager-load des offices, et des bookings de chq office,
+    # et des services de chq booking
+    @buildings = Building.all.includes(offices: { bookings: [:services] })
     @bookings = Booking.where(user_id: current_user.id)
   end
 end

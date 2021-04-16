@@ -9,6 +9,15 @@ class Booking < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
 
+  # scope :cafe_count, -> { joins(:services).where("name = ?", "café") }
+  # scope :the_count, -> { joins(:services).where("name = ?", "thé") }
+  # scope :impression_count, -> { joins(:services).where("name = ?", "impression") }
+  # scope :scan_count, -> { joins(:services).where("name = ?", "scan") }
+
+  scope :service_count, -> (name) { joins(:services).where("name = ?", name).count }
+  scope :total_number_of_services, -> { joins(:services).count }
+  scope :last_seven_days_bookings, -> { where(created_at: (Time.now.midnight - 7.day)..Time.now.midnight).count }
+
   def dates_booked
     self.end_date ? self.start_date..self.end_date : self.start_date..self.start_date
     # dates = [self.start_date]
