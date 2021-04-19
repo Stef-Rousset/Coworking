@@ -9,14 +9,14 @@
     </div>
   </div>
 </div>
-
+<!-- vue admin -->
 <% if current_user.admin? %>
   <div class="dashboard-title">
     <h2>Les immeubles</h2>
     <%= link_to "Ajouter un immeuble", new_building_path, class: 'btn btn-secondary' %>
   </div>
   <div class="dashboard-list">
-      <% @buildings.each do |building| %>
+    <% @buildings.each do |building| %>
       <div class="dashboard-building">
         <h3><%= building.name %></h3>
         <div class="dashboard-building__links">
@@ -26,45 +26,93 @@
         </div>
         <div class="dashboard-building__stats">
           <h4>Statistiques</h4>
-          <p>Nombre total de réservations:
+          <p>Nombre total de réservations :
             <%#= building.offices.total_bookings %>
-            <%= Building.where(id: building.id).joins(offices: :bookings).count %>
+            <%= total_number_of_bookings = Building.where(id: building.id).joins(offices: :bookings).count %>
           </p>
-          <p>Réservations en bureau privé:
+          <p>Réservations en bureau privé :
             <%#= building.offices.privates_bookings %>
-            <%= Building.where(id: building.id).joins(offices: :bookings).where(offices: { office_type: 1 }).count %>
+            <%= Building.where(id: building.id).joins(offices: :bookings)
+                        .where(offices: { office_type: 1 }).count %>
           </p>
-          <p>Réservations en cowork:
+          <p>Réservations en cowork :
             <%#= building.offices.coworks_bookings %>
-            <%= Building.where(id: building.id).joins(offices: :bookings).where(offices: { office_type: 2 }).count %>
+            <%= Building.where(id: building.id).joins(offices: :bookings)
+                        .where(offices: { office_type: 2 }).count %>
           </p>
-            <% seven_days = [] %>
-            <% total = [] %>
-            <% cafés = [] %>
-            <% thés = [] %>
-            <% impressions = [] %>
-            <% scans = [] %>
-            <% building.offices.each do |office| %>
-            <% seven_days << office.bookings.last_seven_days_bookings %>
-            <% total << office.bookings.total_number_of_services %>
-            <% cafés << office.bookings.service_count("café") %>
-            <% thés << office.bookings.service_count("thé")%>
-            <% impressions << office.bookings.service_count("impression")%>
-            <% scans << office.bookings.service_count("scan")%>
-            <% end %>
-            <p>Réservations des 7 derniers jours : <%= seven_days.sum %> </p>
-            <p>Total des services réservés : <%= total.sum %></p>
+            <%# seven_days = [] %>
+            <%# total = [] %>
+            <%# cafés = [] %>
+            <%# thés = [] %>
+            <%# impressions = [] %>
+            <%# scans = [] %>
+            <%# building.offices.each do |office| %>
+              <%# seven_days << office.bookings.last_seven_days_bookings %>
+              <%# total << office.bookings.total_number_of_services %>
+              <%# cafés << office.bookings.service_count("café") %>
+              <%# thés << office.bookings.service_count("thé")%>
+              <%# impressions << office.bookings.service_count("impression")%>
+              <%# scans << office.bookings.service_count("scan")%>
+            <%# end %>
+            <p>Réservations des 7 derniers jours :
+              <%#= seven_days.sum %>
+              <% seven_days_ago = (Time.now.midnight - 7.day)..Time.now.midnight %>
+              <%= Building.where(id: building.id).joins(offices: :bookings)
+                          .where(bookings: { created_at: seven_days_ago }).count %></p>
+            <p>Durée moyenne d'une réservation :
+              <%# average_duration = [] %>
+              <%# building.offices.each do |office| %>
+                <%# office.bookings.each do |booking| %>
+                  <%# average_duration << booking.dates_booked.count %>
+                <%# end %>
+              <%# end %>
+              <%# average = average_duration.sum / building.offices.total_bookings %>
+              <%#= average > 1 ? average.to_s + ' jours' : average.to_s + ' jour' %>
+              <% array = Building.where(id: building.id).joins(offices: :bookings).pluck(:start_date, :end_date) %>
+              <% average = [] %>
+              <% array.each do |sub_array| %>
+                <% duration = (sub_array[0]..sub_array[1]).count %>
+                <% average << duration %>
+              <% end %>
+              <% result = average.sum / total_number_of_bookings %>
+              <%= result > 1 ? result.to_s + ' jours' : result.to_s + ' jour' %>
+            </p>
+            <p>Nombre total de clients différents :
+              <%= Building.where(id: building.id).joins(offices: :bookings).distinct
+                  .pluck(:user_id).count %>
+            </p>
+            <p>Total des services réservés :
+              <%#= total.sum %>
+              <%= Building.where(id: building.id).joins(offices: { bookings: :services }).count %>
+              </p>
             <ul>
-              <li>cafés : <%= cafés.sum %> </li>
-              <li>thés : <%= thés.sum %> </li>
-              <li>impressions : <%= impressions.sum %></li>
-              <li>scans : <%= scans.sum %></li>
+              <li>cafés :
+                <%#= cafés.sum %>
+                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
+                            .where(services: { name: "café" }).count %>
+
+              </li>
+              <li>thés :
+                <%#= thés.sum %>
+                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
+                            .where(services: { name: "thé" }).count %>
+              </li>
+              <li>impressions :
+                <%#= impressions.sum %>
+                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
+                            .where(services: { name: "impression" }).count %>
+              </li>
+              <li>scans :
+                <%#= scans.sum %>
+                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
+                            .where(services: { name: "scan" }).count %>
+              </li>
             </ul>
         </div>
       </div>
-      <% end %>
-    </ul>
+    <% end %>
   </div>
+  <!-- vue user -->
 <% else %>
   <h2>Tes réservations</h2>
   <div class="reservations">
@@ -73,9 +121,9 @@
       <ul>
         <li> > <%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
         <li>du <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
-        <li>prix</li>
+        <li class="user_booking_price">prix : €
+         </li>
       </ul>
-
     </div>
     <% end %>
   </div>
