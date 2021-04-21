@@ -28,7 +28,9 @@
           <h4>Statistiques</h4>
           <p>Nombre total de réservations :
             <%#= building.offices.total_bookings %>
-            <%= total_number_of_bookings = Building.where(id: building.id).joins(offices: :bookings).count %>
+            <%#= b.where(b[:id].eq(building.id)).joins(offices: :bookings).size %>
+            <%= total_number_of_bookings = Building.where(id: building.id)
+                                           .joins(offices: :bookings).size %>
           </p>
           <p>Réservations en bureau privé :
             <%#= building.offices.privates_bookings %>
@@ -56,7 +58,7 @@
             <%# end %>
             <p>Réservations des 7 derniers jours :
               <%#= seven_days.sum %>
-              <% seven_days_ago = (Time.now.midnight - 7.day)..Time.now.midnight %>
+              <% seven_days_ago = (Time.now.end_of_day - 7.day)..Time.now.end_of_day %>
               <%= Building.where(id: building.id).joins(offices: :bookings)
                           .where(bookings: { created_at: seven_days_ago }).count %></p>
             <p>Durée moyenne d'une réservation :
@@ -82,30 +84,26 @@
                   .pluck(:user_id).count %>
             </p>
             <p>Total des services réservés :
-              <%#= total.sum %>
-              <%= Building.where(id: building.id).joins(offices: { bookings: :services }).count %>
+              <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                          .pluck(:quantity).sum %>
               </p>
             <ul>
               <li>cafés :
-                <%#= cafés.sum %>
-                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
-                            .where(services: { name: "café" }).count %>
+                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                            .where(services: { name: "café" }).pluck(:quantity).sum %>
 
               </li>
               <li>thés :
-                <%#= thés.sum %>
-                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
-                            .where(services: { name: "thé" }).count %>
+                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                            .where(services: { name: "thé" }).pluck(:quantity).sum %>
               </li>
               <li>impressions :
-                <%#= impressions.sum %>
-                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
-                            .where(services: { name: "impression" }).count %>
+                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                            .where(services: { name: "impression" }).pluck(:quantity).sum %>
               </li>
               <li>scans :
-                <%#= scans.sum %>
-                <%= Building.where(id: building.id).joins(offices: { bookings: :services })
-                            .where(services: { name: "scan" }).count %>
+                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                            .where(services: { name: "scan" }).pluck(:quantity).sum %>
               </li>
             </ul>
         </div>
