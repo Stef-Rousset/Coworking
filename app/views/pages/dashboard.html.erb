@@ -108,7 +108,7 @@
         </div>
       </div>
     <% end %>
-    <p>With Arel</p>
+    <h2>One building with Arel</h2>
       <% offices = Office.arel_table %>
       <% bookings = Booking.arel_table %>
       <% buildings = Building.arel_table %>
@@ -124,7 +124,6 @@
       <p>Espace Foch :</p>
       <p>-> Nombre de bureaux :
       <% building_offices_join = buildings.join(offices).on(buildings[:id].eq(offices[:building_id])).join_sources %>
-      <%#= number_of_offices_per_building = Building.joins(building_offices_join).group(buildings[:id]).pluck(offices[:id].count) %>
       <%= Building.where(buildings[:name].eq('Espace Foch'))
                   .joins(building_offices_join)
                   .pluck(offices[:id].count).join('') %>
@@ -140,12 +139,7 @@
         <%= Building.where(buildings[:name].eq('Espace Foch'))
                     .joins(building_offices_join)
                     .joins(office_bookings_join)
-                    .where(offices[:office_type].eq(1))
-                    .pluck(bookings[:id].count).join('') %>
-        <%#= Building.where(buildings[:name].eq('Espace Foch'))
-                    .joins(building_offices_join)
-                    .joins(office_bookings_join)
-                    .merge(Office.where(office_type: 1))
+                    .where(offices[:office_type].eq(2))    #.merge(Office.where(office_type: 1))
                     .pluck(bookings[:id].count).join('') %>
       </p>
       <p>- en cowork :
@@ -200,6 +194,92 @@
                   .where(services[:name].eq('café'))
                   .pluck(service_bookings[:quantity]).sum %>
       </p>
+      <h2>All buildings with Arel</h2>
+      <table>
+        <tr>
+          <th class="first-column-width"></th>
+          <th class="column-title">Espace Foch</th>
+          <th class="column-title">Espace Chatelet</th>
+          <th class="column-title">Espace Pizay</th>
+        </tr>
+        <tr>
+          <th>Nombre total de bureaux</th>
+          <% number_of_offices_per_building = Building.total_number_of_offices %>
+          <% number_of_offices_per_building.each_with_index do |num, index| %>
+            <td><%= number_of_offices_per_building[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total de réservations</th>
+          <% num_of_books = Building.total_number_of_bookings %>
+          <% num_of_books.each_with_index do |num, index| %>
+            <td><%= num_of_books[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Réservations en bureau privé</th>
+          <% private_books = Building.private_bookings %>
+          <% private_books.each_with_index do |num, index| %>
+            <td><%= private_books[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Réservations en cowork</th>
+          <% cowork_books = Building.cowork_bookings %>
+          <% cowork_books.each_with_index do |num, index| %>
+            <td><%= cowork_books[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Réservations des 7 derniers jours</th>
+          <% seven_days_bookings = Building.seven_days_ago_bookings %>
+          <% seven_days_bookings.each_value do |value| %>
+          <td><%= value %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total de clients</th>
+          <% num_of_clients = Building.number_of_clients%>
+          <% num_of_clients.each_with_index do |num, index| %>
+            <td><%= num_of_clients[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total de services réservés</th>
+          <% num_of_services = Building.total_number_of_services %>
+          <% num_of_services.each_with_index do |num, index| %>
+            <td><%= num_of_services[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total de cafés</th>
+          <% num_of_cafes = Building.number_of_services('café') %>
+          <% num_of_cafes.each_with_index do |num, index| %>
+            <td><%= num_of_cafes[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total de thés</th>
+          <% num_of_thes = Building.number_of_services('thé') %>
+          <% num_of_thes.each_with_index do |num, index| %>
+            <td><%= num_of_thes[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total d'impressions</th>
+          <% num_of_impressions = Building.number_of_services('impression') %>
+          <% num_of_impressions.each_with_index do |num, index| %>
+            <td><%= num_of_impressions[index] %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre total de scans</th>
+          <% num_of_scans = Building.number_of_services('scan') %>
+          <% num_of_scans.each_with_index do |num, index| %>
+            <td><%= num_of_scans[index] %></td>
+          <% end %>
+        </tr>
+      </table>
   </div>
   <!-- vue user -->
 <% else %>

@@ -27,28 +27,15 @@ class Booking < ApplicationRecord
     # return dates
   end
 
-  # def booking_price
-  #   office_price_per_day = self.office.price * 60 * 7
-  #   service_price = []
-  #   self.services.each do |service|
-  #     service_price << service.price
-  #   end
-  #   discount_days = self.dates_booked.select{ |date|
-  #     self.office.discounts.each do |discount|
-  #       discount.discount_period.include?(date)
-  #     end
-  #   }
-  #   if discount_days.empty?
-  #     return office_price_per_day + service_price.sum
-  #   else
-  #     self.office.discounts.each do |discount|
-  #       office_price_with_discount = office_price_per_day * discount.amount
-  #       number_of_days_with_discount
-  #     end
-  #     total_price_with_discount = (office_price_per_day * discount.amount * discount_days.length)
-  #                                + (office_price_per_day * (self.dates_booked.length - discount_days.length))
-  #     return office_price_with_discount +  service_price.sum
-  #   end
-  # end
+  private
+
+  def self.seven_days_ago
+    where(Booking.arel_table[:created_at].gteq(Time.now.end_of_day - 7.day))
+  end
+
+  def self.join_with_service_bookings
+    service_bookings = ServiceBooking.arel_table
+    joins(:service_bookings)
+  end
 
 end

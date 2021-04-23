@@ -15,4 +15,19 @@ class Office < ApplicationRecord
   scope :privates_bookings, -> { where(office_type: 1).joins(:bookings).count }
   scope :coworks_bookings, -> { where(office_type: 2).joins(:bookings).count }
 
+  private
+
+  def self.private_office
+    where(Office.arel_table[:office_type].eq(1))
+  end
+
+  def self.cowork_office
+    where(Office.arel_table[:office_type].eq(2))
+  end
+
+  def self.join_with_bookings
+    bookings = Booking.arel_table
+    joins(:bookings)
+  end
+
 end
