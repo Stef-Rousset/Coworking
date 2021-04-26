@@ -75,8 +75,12 @@
                 <% duration = (sub_array[0]..sub_array[1]).count %>
                 <% average << duration %>
               <% end %>
-              <% result = average.sum / number_of_bookings_by_building %>
-              <%= result > 1 ? result.to_s + ' jours' : result.to_s + ' jour' %>
+              <% if number_of_bookings_by_building == 0 %>
+                <%= result = 0 %>
+              <% else %>
+                <% result = average.sum / number_of_bookings_by_building %>
+                <%= result > 1 ? result.to_s + ' jours' : result.to_s + ' jour' %>
+              <% end %>
             </p>
             <p>Nombre total de clients différents :
               <%= Building.where(id: building.id).joins(offices: :bookings).distinct
@@ -204,82 +208,89 @@
         </tr>
         <tr>
           <th>Nombre total de bureaux</th>
-          <% number_of_offices_per_building = Building.total_number_of_offices %>
-          <% number_of_offices_per_building.each_with_index do |num, index| %>
-            <td><%= number_of_offices_per_building[index] %></td>
+          <% @number_of_offices_per_building.each_with_index do |num, index| %>
+            <td><%= @number_of_offices_per_building[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de réservations</th>
-          <% num_of_books = Building.total_number_of_bookings %>
-          <% num_of_books.each_with_index do |num, index| %>
-            <td><%= num_of_books[index] %></td>
+          <% @num_of_books.each_with_index do |num, index| %>
+            <td><%= @num_of_books[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Réservations en bureau privé</th>
-          <% private_books = Building.private_bookings %>
-          <% private_books.each_with_index do |num, index| %>
-            <td><%= private_books[index] %></td>
+          <% @private_books.each_with_index do |num, index| %>
+            <td><%= @private_books[index] %></td>
           <% end %>
         </tr>
         <tr>
+          <!-- exemple traité avec un left_outer_join pour gerer les cases vides -->
           <th>Réservations en cowork</th>
-          <% cowork_books = Building.cowork_bookings %>
-          <% cowork_books.each_with_index do |num, index| %>
-            <td><%= cowork_books[index] %></td>
+          <% @cowork_books.each do |value| %>
+            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
           <% end %>
         </tr>
         <tr>
           <th>Réservations des 7 derniers jours</th>
-          <% seven_days_bookings = Building.seven_days_ago_bookings %>
-          <% seven_days_bookings.each_value do |value| %>
-          <td><%= value %></td>
+          <% if @seven_days_bookings.empty? %>
+          <%= content_tag(:td, 0) * 3 %>
+          <% else %>
+            <% @seven_days_bookings.each_value do |value| %>
+              <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+            <% end %>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de clients</th>
-          <% num_of_clients = Building.number_of_clients%>
-          <% num_of_clients.each_with_index do |num, index| %>
-            <td><%= num_of_clients[index] %></td>
+          <% @num_of_clients.each_with_index do |num, index| %>
+            <td><%= @num_of_clients[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de services réservés</th>
-          <% num_of_services = Building.total_number_of_services %>
-          <% num_of_services.each_with_index do |num, index| %>
-            <td><%= num_of_services[index] %></td>
+          <% @num_of_services.each_with_index do |num, index| %>
+            <td><%= @num_of_services[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de cafés</th>
-          <% num_of_cafes = Building.number_of_services('café') %>
-          <% num_of_cafes.each_with_index do |num, index| %>
-            <td><%= num_of_cafes[index] %></td>
+          <% @num_of_cafes.each_with_index do |num, index| %>
+            <td><%= @num_of_cafes[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de thés</th>
-          <% num_of_thes = Building.number_of_services('thé') %>
-          <% num_of_thes.each_with_index do |num, index| %>
-            <td><%= num_of_thes[index] %></td>
+          <% @num_of_thes.each_with_index do |num, index| %>
+            <td><%= @num_of_thes[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total d'impressions</th>
-          <% num_of_impressions = Building.number_of_services('impression') %>
-          <% num_of_impressions.each_with_index do |num, index| %>
-            <td><%= num_of_impressions[index] %></td>
+          <% @num_of_impressions.each_with_index do |num, index| %>
+            <td><%= @num_of_impressions[index] %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de scans</th>
-          <% num_of_scans = Building.number_of_services('scan') %>
-          <% num_of_scans.each_with_index do |num, index| %>
-            <td><%= num_of_scans[index] %></td>
+          <% @num_of_scans.each_with_index do |num, index| %>
+            <td><%= @num_of_scans[index] %></td>
           <% end %>
         </tr>
       </table>
+      <h2>Liste de tous les buildings avec les noms des bureaux qui fonctionne même si l'immeuble n'a pas de bureau</h2>
+        <% buildings = Building.arel_table %>
+        <% offices = Office.arel_table %>
+        <% my_join = buildings.join(offices, Arel::Nodes::OuterJoin).on(buildings[:id].eq(offices[:building_id])).join_sources %>
+        <p>
+        <%= my_array = Building.joins(my_join).order(buildings[:id].asc).pluck(buildings[:name], offices[:name]) %>
+        </p>
+        <p> Bureaux de l'espace Foch :
+        <%= foch_array = Building.joins(my_join).where(buildings[:name].eq("Espace Foch")).pluck(offices[:name]).join(', ') %>
+        </p>
+        <p>Bureaux de l'espace Opera :<%= Building.list_of_offices("Espace Opera").join(', ') %></p>
+        <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
+
   </div>
   <!-- vue user -->
 <% else %>

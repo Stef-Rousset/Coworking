@@ -26,8 +26,11 @@ class Office < ApplicationRecord
   end
 
   def self.join_with_bookings
-    bookings = Booking.arel_table
     joins(:bookings)
+  end
+
+  def self.left_join_with_bookings
+    left_outer_joins(:bookings)
   end
 
 end

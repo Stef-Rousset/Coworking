@@ -5,7 +5,6 @@ class ServiceBooking < ApplicationRecord
   private
 
   def self.join_service_with_name(name)
-    service_bookings = ServiceBooking.arel_table
     service = Service.arel_table
     joins(:service).where(service[:name].eq(name))
   end

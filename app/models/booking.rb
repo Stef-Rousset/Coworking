@@ -34,7 +34,6 @@ class Booking < ApplicationRecord
   end
 
   def self.join_with_service_bookings
-    service_bookings = ServiceBooking.arel_table
     joins(:service_bookings)
   end
 
