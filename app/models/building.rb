@@ -66,12 +66,12 @@ class Building < ApplicationRecord
     .merge(Office.left_join_with_bookings)
     .pluck(bookings[:id].count)
   end
-
+  #methode avec un joins classique
   # def self.seven_days_ago_bookings
   #   query_with_offices_and_bookings
   #   .merge(Booking.seven_days_ago).size
   # end
-
+  #methode avec un left_outer_join
   def self.seven_days_ago_bookings
     buildings = Building.arel_table
     bookings = Booking.arel_table
@@ -81,6 +81,7 @@ class Building < ApplicationRecord
     .merge(Office.left_join_with_bookings)
     .merge(Booking.seven_days_ago).size
   end
+
 
   def self.number_of_clients
     bookings = Booking.arel_table

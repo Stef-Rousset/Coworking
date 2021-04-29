@@ -1,0 +1,22 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  header = style.add_style(bg_color: "aad8d3",
+                                   sz: 18,
+                                   b: true,
+                                   alignment: { horizontal: :center })
+  highlight_cell = style.add_style(bg_color: "aad8d3",
+                                   border: Axlsx::STYLE_THIN_BORDER,
+                                   alignment: { horizontal: :center })
+  normal_cell = style.add_style(alignment: { horizontal: :center })
+
+
+  wb.add_worksheet(name: "Buildings") do |sheet|
+  sheet.add_row
+  sheet.add_row ['Buildings stats'], style: header, offset: 1
+  sheet.add_row
+    sheet.add_row ["Nom du Building", "Nombre de bureaux", "Nombre total de réservations"], style: highlight_cell
+    @buildings.each_with_index do |building, index|
+      sheet.add_row [building.name, building.offices.size, Building.total_number_of_services[index]], style: normal_cell
+    end
+  end
+end

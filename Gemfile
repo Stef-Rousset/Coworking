@@ -35,6 +35,8 @@ gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'rails-i18n', '~> 6.0'
 gem 'cocoon', '~> 1.2', '>= 1.2.9'
+gem 'caxlsx'
+gem 'caxlsx_rails'
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'

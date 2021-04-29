@@ -143,7 +143,7 @@
         <%= Building.where(buildings[:name].eq('Espace Foch'))
                     .joins(building_offices_join)
                     .joins(office_bookings_join)
-                    .where(offices[:office_type].eq(2))    #.merge(Office.where(office_type: 1))
+                    .where(offices[:office_type].eq(2))    #ou aussi .merge(Office.where(office_type: 1))
                     .pluck(bookings[:id].count).join('') %>
       </p>
       <p>- en cowork :
@@ -283,14 +283,15 @@
         <% offices = Office.arel_table %>
         <% my_join = buildings.join(offices, Arel::Nodes::OuterJoin).on(buildings[:id].eq(offices[:building_id])).join_sources %>
         <p>
-        <%= my_array = Building.joins(my_join).order(buildings[:id].asc).pluck(buildings[:name], offices[:name]) %>
+        <%#= my_array = Building.joins(my_join).order(buildings[:id].asc).pluck(buildings[:name], offices[:name]) %>
         </p>
         <p> Bureaux de l'espace Foch :
         <%= foch_array = Building.joins(my_join).where(buildings[:name].eq("Espace Foch")).pluck(offices[:name]).join(', ') %>
         </p>
         <p>Bureaux de l'espace Opera :<%= Building.list_of_offices("Espace Opera").join(', ') %></p>
         <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
-
+      <h2>Export excels</h2>
+      <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
   </div>
   <!-- vue user -->
 <% else %>

@@ -25,5 +25,12 @@ class PagesController < ApplicationController
 
     # vue user
     @bookings = Booking.where(user_id: current_user.id)
+
+    respond_to do |format|
+      format.html
+      format.xlsx {
+        response.headers['Content-Disposition'] = 'attachment; filename="Buildings_stats.xlsx"'
+      }
+    end
   end
 end

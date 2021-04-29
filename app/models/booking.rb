@@ -30,7 +30,8 @@ class Booking < ApplicationRecord
   private
 
   def self.seven_days_ago
-    where(Booking.arel_table[:created_at].gteq(Time.now.end_of_day - 7.day))
+    bookings = Booking.arel_table
+    where(bookings[:created_at].gteq(Time.now.end_of_day - 7.day))
   end
 
   def self.join_with_service_bookings
