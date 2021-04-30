@@ -294,7 +294,7 @@
           <%= Building.list_of_offices("Espace Opera").empty? ? "pas de bureaux" : Building.list_of_offices("Espace Opera").join(', ')%>
         </p>
         <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
-      <h2>Export excels</h2>
+      <h2>Export excels et pdf</h2>
       <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
   </div>
   <!-- vue user -->
