@@ -10,4 +10,10 @@ class Office < ApplicationRecord
   validates :name, presence: true
 
   enum office_type: { privates: 1, coworks: 2 }
+
+  scope :total_bookings, -> { joins(:bookings).count }
+  scope :privates_bookings, -> { where(office_type: 1).joins(:bookings).count }
+  scope :coworks_bookings, -> { where(office_type: 2).joins(:bookings).count }
+
+
 end

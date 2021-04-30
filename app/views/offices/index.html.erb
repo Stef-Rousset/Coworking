@@ -70,16 +70,32 @@
               method: :delete, data: { confirm: "Are you sure" } %>
         </div>
         <div class="office-card__form">
-          <h4>Ajouter une réduction</h4>
-          <%= simple_form_for([office, @discount], remote: true) do |f| %>
-            <%= f.input :amount, :label => "Montant" %>
-            <%= f.input :start_date, as: :date %>
-            <%= f.input :end_date, as: :date %>
-            <%= f.submit "Valider", class: 'btn btn-secondary' %>
-          <% end %>
+          <h4 class="add_discount" data-number="<%= office.id %>">Ajouter une réduction</h4>
+          <div class="discount-form hide-discount-form" data-number="<%= office.id %>">
+            <%= simple_form_for([office, @discount], remote: true) do |f| %>
+              <%= f.input :amount, :label => "Montant" %>
+              <%= f.input :start_date, as: :date %>
+              <%= f.input :end_date, as: :date %>
+              <%= f.submit "Valider", class: 'btn btn-secondary' %>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>
   <% end %>
 </div>
+<script>
+  let linksToDiscountForm = document.querySelectorAll('.add_discount');
+  const forms = document.querySelectorAll('.discount-form');
+  linksToDiscountForm.forEach( linkToDiscountForm => {
+      linkToDiscountForm.addEventListener('click', event => {
+          forms.forEach(form => {
+            if (form.dataset.number === event.currentTarget.dataset.number){;
+              form.classList.toggle('hide-discount-form');
+              form.classList.toggle('show-discount-form');
+            }
+          });
+      })
+  })
+</script>
 

@@ -118,6 +118,7 @@ const fullCalendar = () => {
                   if (discountList === null || discounts.length === 0) {
                       totalPriceWithoutService = parseFloat((numberOfDaysBooked * officePrice ), 10);
                   } else {
+                      let discountPricesArray = [];
                       discounts.forEach(discount => {
                         let discountStart = new Date (discount.dataset.discountStart);
                         let discountEnd = new Date(discount.dataset.discountEnd);
@@ -135,9 +136,10 @@ const fullCalendar = () => {
                             numberOfDaysWithDiscount = numberOfDaysBooked;
                         }
                         numberOfDaysWithoutDiscount = numberOfDaysBooked - numberOfDaysWithDiscount;
-                        totalPriceWithoutService = parseFloat((numberOfDaysWithDiscount * officePriceWithDiscount), 10)
-                                                  + parseFloat((numberOfDaysWithoutDiscount * officePrice), 10);
+                        discountPricesArray.push(parseFloat((numberOfDaysWithDiscount * officePriceWithDiscount), 10)
+                                                  + parseFloat((numberOfDaysWithoutDiscount * officePrice), 10));
                       })
+                      totalPriceWithoutService = discountPricesArray.reduce(function(acc,currV){ return acc + currV; });
                   }
                   if (document.querySelector('.priceSummarySpan') != null) {
                       document.querySelector('.priceSummarySpan').remove();
