@@ -27,15 +27,4 @@ class Booking < ApplicationRecord
     # return dates
   end
 
-  private
-
-  def self.seven_days_ago
-    bookings = Booking.arel_table
-    where(bookings[:created_at].gteq(Time.now.end_of_day - 7.day))
-  end
-
-  def self.join_with_service_bookings
-    joins(:service_bookings)
-  end
-
 end

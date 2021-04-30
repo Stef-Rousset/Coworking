@@ -205,76 +205,78 @@
           <th class="column-title">Espace Foch</th>
           <th class="column-title">Espace Chatelet</th>
           <th class="column-title">Espace Pizay</th>
+          <th class="column-title">Espace Opera</th>
         </tr>
         <tr>
           <th>Nombre total de bureaux</th>
-          <% @number_of_offices_per_building.each_with_index do |num, index| %>
-            <td><%= @number_of_offices_per_building[index] %></td>
+          <% @number_of_offices_per_building.each do |value| %>
+            <td><%= value %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de réservations</th>
-          <% @num_of_books.each_with_index do |num, index| %>
-            <td><%= @num_of_books[index] %></td>
+          <% @num_of_books.each do |value| %>
+            <td><%= value %></td>
           <% end %>
         </tr>
         <tr>
           <th>Réservations en bureau privé</th>
-          <% @private_books.each_with_index do |num, index| %>
-            <td><%= @private_books[index] %></td>
+          <% @private_books.each do |value| %>
+            <td><%= value %></td>
           <% end %>
         </tr>
         <tr>
-          <!-- exemple traité avec un left_outer_join pour gerer les cases vides -->
           <th>Réservations en cowork</th>
           <% @cowork_books.each do |value| %>
-            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+            <td><%= value %></td>
           <% end %>
         </tr>
         <tr>
           <th>Réservations des 7 derniers jours</th>
-          <% if @seven_days_bookings.empty? %>
-          <%= content_tag(:td, 0) * 3 %>
-          <% else %>
-            <% @seven_days_bookings.each_value do |value| %>
-              <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+            <% @seven_days_bookings.each do |value| %>
+              <td><%= value %></td>
             <% end %>
-          <% end %>
         </tr>
         <tr>
           <th>Nombre total de clients</th>
-          <% @num_of_clients.each_with_index do |num, index| %>
-            <td><%= @num_of_clients[index] %></td>
+          <% @num_of_clients.each_value do |value| %>
+            <td><%= value %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de services réservés</th>
-          <% @num_of_services.each_with_index do |num, index| %>
-            <td><%= @num_of_services[index] %></td>
+          <% @num_of_services.each do |value| %>
+            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+          <% end %>
+        </tr>
+        <tr>
+          <th>Nombre de réservations avec au moins 2 services différents</th>
+          <% @two_services_booked.each do |value| %>
+            <td><%= value %></td>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de cafés</th>
-          <% @num_of_cafes.each_with_index do |num, index| %>
-            <td><%= @num_of_cafes[index] %></td>
+          <% @num_of_cafes.each do |value| %>
+            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de thés</th>
-          <% @num_of_thes.each_with_index do |num, index| %>
-            <td><%= @num_of_thes[index] %></td>
+          <% @num_of_thes.each do |value| %>
+            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total d'impressions</th>
-          <% @num_of_impressions.each_with_index do |num, index| %>
-            <td><%= @num_of_impressions[index] %></td>
+          <% @num_of_impressions.each do |value| %>
+            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
           <% end %>
         </tr>
         <tr>
           <th>Nombre total de scans</th>
-          <% @num_of_scans.each_with_index do |num, index| %>
-            <td><%= @num_of_scans[index] %></td>
+          <% @num_of_scans.each do |value| %>
+            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
           <% end %>
         </tr>
       </table>
@@ -288,7 +290,9 @@
         <p> Bureaux de l'espace Foch :
         <%= foch_array = Building.joins(my_join).where(buildings[:name].eq("Espace Foch")).pluck(offices[:name]).join(', ') %>
         </p>
-        <p>Bureaux de l'espace Opera :<%= Building.list_of_offices("Espace Opera").join(', ') %></p>
+        <p>Bureaux de l'espace Opera :
+          <%= Building.list_of_offices("Espace Opera").empty? ? "pas de bureaux" : Building.list_of_offices("Espace Opera").join(', ')%>
+        </p>
         <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
       <h2>Export excels</h2>
       <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>

@@ -22,6 +22,7 @@ class PagesController < ApplicationController
     @num_of_thes = Building.number_of_services('thé')
     @num_of_impressions = Building.number_of_services('impression')
     @num_of_scans = Building.number_of_services('scan')
+    @two_services_booked = Building.two_services_booked
 
     # vue user
     @bookings = Booking.where(user_id: current_user.id)

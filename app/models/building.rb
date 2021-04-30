@@ -11,96 +11,98 @@ class Building < ApplicationRecord
 
   private
 
-  def self.join_with_offices
-     joins(:offices)
-  end
-
-  def self.join_with_offices_and_bookings
-    join_with_offices.merge(Office.join_with_bookings)
-  end
-
+  #methode avec un left_outer_join (alias left_joins) pour gerer les champs vides
   def self.total_number_of_offices
     buildings = Building.arel_table
     offices = Office.arel_table
-    join_with_offices
+    left_joins(:offices)
     .group(buildings[:id])
+    .order(buildings[:id].asc)
     .pluck(offices[:id].count)
   end
 
-   def self.query_with_offices_and_bookings
-    buildings = Building.arel_table
-    group(buildings[:id])
-    .join_with_offices_and_bookings
-    .order(buildings[:id].asc)
-  end
-
   def self.total_number_of_bookings
+    buildings = Building.arel_table
     bookings = Booking.arel_table
-    query_with_offices_and_bookings
+    left_joins(offices: :bookings)
+    .group(buildings[:id])
+    .order(buildings[:id].asc)
     .pluck(bookings[:id].count)
   end
 
   def self.private_bookings
+    buildings = Building.arel_table
     bookings = Booking.arel_table
-    query_with_offices_and_bookings
-    .merge(Office.private_office)
+    offices = Office.arel_table
+    group(buildings[:id])
+    .order(buildings[:id].asc)
+    .left_joins(offices: :bookings)
+    .where(offices[:office_type].eq(1).or(bookings[:id].eq(nil)))
     .pluck(bookings[:id].count)
   end
 
-  #methode avec un joins classique du coup pb avec les cases vides
-  # def self.cowork_bookings
-  #   bookings = Booking.arel_table
-  #   query_with_offices_and_bookings
-  #   .merge(Office.cowork_office)
-  #   .pluck(bookings[:id].count)
-  # end
-
-  #methode avec un left_outer_join pour gerer les cases vides
   def self.cowork_bookings
     buildings = Building.arel_table
     bookings = Booking.arel_table
     offices = Office.arel_table
     group(buildings[:id])
-    .join_with_offices
-    .where(offices[:office_type].eq(2))
-    .merge(Office.left_join_with_bookings)
+    .order(buildings[:id].asc)
+    .left_joins(offices: :bookings)
+    .where(offices[:office_type].eq(2).or(bookings[:id].eq(nil)))
     .pluck(bookings[:id].count)
   end
-  #methode avec un joins classique
-  # def self.seven_days_ago_bookings
-  #   query_with_offices_and_bookings
-  #   .merge(Booking.seven_days_ago).size
-  # end
-  #methode avec un left_outer_join
+
   def self.seven_days_ago_bookings
     buildings = Building.arel_table
     bookings = Booking.arel_table
     offices = Office.arel_table
     group(buildings[:id])
-    .join_with_offices
-    .merge(Office.left_join_with_bookings)
-    .merge(Booking.seven_days_ago).size
+    .order(buildings[:id].asc)
+    .left_joins(offices: :bookings)
+    .where(bookings[:created_at].gteq(Time.now.end_of_day - 7.day).or(bookings[:id].eq(nil)))
+    .pluck(bookings[:id].count)
   end
 
-
   def self.number_of_clients
+    buildings = Building.arel_table
     bookings = Booking.arel_table
-    query_with_offices_and_bookings
-    .pluck(bookings[:user_id].uniq.count)
+    distinct_user_bookings = Booking.where(bookings[:user_id].gteq(1).or(bookings[:id].eq(nil)))
+    group(buildings[:id])
+    .order(buildings[:id].asc)
+    .left_joins(offices: :bookings)
+    .where(bookings[:user_id].gteq(1).or(bookings[:id].eq(nil)))
+    .select(bookings[:user_id]).distinct.count
+
   end
 
   def self.total_number_of_services
+    buildings = Building.arel_table
     service_bookings = ServiceBooking.arel_table
-    query_with_offices_and_bookings
-    .merge(Booking.join_with_service_bookings)
+    group(buildings[:id])
+    .order(buildings[:id].asc)
+    .left_joins(offices: { bookings: :service_bookings })
+    .where(service_bookings[:quantity].gteq(1).or(service_bookings[:id].eq(nil)))
     .pluck(service_bookings[:quantity].sum)
   end
 
-  def self.number_of_services(name)
+  def self.two_services_booked
+    buildings = Building.arel_table
     service_bookings = ServiceBooking.arel_table
-    query_with_offices_and_bookings
-    .merge(Booking.join_with_service_bookings)
-    .merge(ServiceBooking.join_service_with_name(name))
+    group(buildings[:id])
+    .order(buildings[:id])
+    .left_joins(offices: { bookings: :service_bookings })
+    .where(service_bookings[:service_id].gteq(2).or(service_bookings[:id].eq(nil)))
+    .pluck(service_bookings[:id].count)
+  end
+
+  def self.number_of_services(name)
+    buildings = Building.arel_table
+    service_bookings = ServiceBooking.arel_table
+    services = Service.arel_table
+    group(buildings[:id])
+    .order(buildings[:id])
+    .left_joins(offices: { bookings: { service_bookings: :service } })
+    .where(services[:name].eq(name).or(service_bookings[:id].eq(nil)))
     .pluck(service_bookings[:quantity].sum)
   end
 
@@ -111,6 +113,7 @@ class Building < ApplicationRecord
     .left_outer_joins(:offices)
     .pluck(offices[:name])
   end
+
 end
 
 

@@ -7,16 +7,19 @@ wb.styles do |style|
   highlight_cell = style.add_style(bg_color: "aad8d3",
                                    border: Axlsx::STYLE_THIN_BORDER,
                                    alignment: { horizontal: :center })
+  first_column_cell = style.add_style(b: true)
   normal_cell = style.add_style(alignment: { horizontal: :center })
 
 
   wb.add_worksheet(name: "Buildings") do |sheet|
   sheet.add_row
-  sheet.add_row ['Buildings stats'], style: header, offset: 1
+  sheet.add_row ['Buildings stats'], style: header
   sheet.add_row
     sheet.add_row ["Nom du Building", "Nombre de bureaux", "Nombre total de réservations"], style: highlight_cell
     @buildings.each_with_index do |building, index|
-      sheet.add_row [building.name, building.offices.size, Building.total_number_of_services[index]], style: normal_cell
+      sheet.add_row [building.name, building.offices.size, Building.total_number_of_services[index]],
+                    style: [first_column_cell, normal_cell, normal_cell]
     end
+    sheet.merge_cells('A2:C2')
   end
 end
