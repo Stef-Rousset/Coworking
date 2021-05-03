@@ -28,6 +28,8 @@ module Coworking
     config.i18n.available_locales = [:en, :fr]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = true
+    #pdfkit
+    config.middleware.use PDFKit::Middleware, :print_media_type => true
 
   end
 end

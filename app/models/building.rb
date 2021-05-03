@@ -95,6 +95,16 @@ class Building < ApplicationRecord
     .pluck(service_bookings[:id].count)
   end
 
+  def self.big_bookings_price
+    buildings = Building.arel_table
+    bookings = Booking.arel_table
+    group(buildings[:id])
+    .order(buildings[:id])
+    .left_joins(offices: :bookings)
+    .where(bookings[:price].gteq(500).or(bookings[:id].eq(nil)))
+    .pluck(bookings[:id].count)
+  end
+
   def self.number_of_services(name)
     buildings = Building.arel_table
     service_bookings = ServiceBooking.arel_table

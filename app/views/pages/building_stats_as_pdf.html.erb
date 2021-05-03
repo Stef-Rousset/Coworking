@@ -1,0 +1,41 @@
+<h1>Building Booking stats</h1>
+<table>
+  <tr>
+    <th class="first-column-width"></th>
+    <th class="column-title">Espace Foch</th>
+    <th class="column-title">Espace Chatelet</th>
+    <th class="column-title">Espace Pizay</th>
+    <th class="column-title">Espace Opera</th>
+  </tr>
+  <tr>
+    <th>Nombre total de bureaux</th>
+    <% @number_of_offices_per_building.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de réservations</th>
+    <% @num_of_books.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Réservations en bureau privé</th>
+    <% @private_books.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Réservations en cowork</th>
+    <% @cowork_books.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Réservations des 7 derniers jours</th>
+      <% @seven_days_bookings.each do |value| %>
+        <td><%= value %></td>
+      <% end %>
+  </tr>
+  <tr>
+</table>

@@ -58,8 +58,8 @@
         <p><i class="fas fa-concierge-bell"></i> </p>
         <p><i class="far fa-money-bill-alt priceSummary" ></i> </p>
     </div>
-    <%# f.hidden_field_tag :price, class: 'booking-price-validated' %>
-    <%= f.submit 'Valider', class: 'btn btn-secondary' %>
+    <%= f.input :price, as: :hidden %>
+    <%= f.submit 'Valider', class: 'btn btn-secondary validate-button' %>
   <% end %>
-
 </div>
+

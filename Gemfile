@@ -37,7 +37,8 @@ gem 'rails-i18n', '~> 6.0'
 gem 'cocoon', '~> 1.2', '>= 1.2.9'
 gem 'caxlsx'
 gem 'caxlsx_rails'
-
+gem "pdfkit"
+gem 'wkhtmltopdf-binary', '~> 0.12.3'
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'

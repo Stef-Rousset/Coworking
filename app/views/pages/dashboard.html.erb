@@ -256,6 +256,12 @@
           <% end %>
         </tr>
         <tr>
+          <th>Nb de réservations >= 500€</th>
+          <% @big_bookings_price.each do |value| %>
+            <td><%= value %></td>
+          <% end %>
+        </tr>
+        <tr>
           <th>Nombre total de cafés</th>
           <% @num_of_cafes.each do |value| %>
             <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
@@ -294,8 +300,10 @@
           <%= Building.list_of_offices("Espace Opera").empty? ? "pas de bureaux" : Building.list_of_offices("Espace Opera").join(', ')%>
         </p>
         <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
-      <h2>Export excels et pdf</h2>
-      <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
+      <h2 class="exports">Exports excel et pdf</h2>
+        <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
+        <%= link_to 'Download all page as pdf', dashboard_path(format: "pdf"), target: "_blank", class: 'btn btn-secondary import-pdf' %>
+        <%= link_to "Building stats as pdf", building_stats_as_pdf_path(format: "pdf"), target: "_blank", class: 'btn btn-secondary import-pdf' %>
   </div>
   <!-- vue user -->
 <% else %>
@@ -306,7 +314,9 @@
       <ul>
         <li> > <%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
         <li>du <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
-        <li class="user_booking_price">prix : €
+        <li class="user_booking_price">prix :
+            <%= booking.price == nil ? 0 : rounded_number(booking.price, 1) %>€
+
          </li>
       </ul>
     </div>
