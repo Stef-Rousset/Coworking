@@ -98,11 +98,12 @@ table {
   margin-top: 2rem;
 }
 /* mise en page en pdf */
-@media print {
-  table {
-    page-break-before: always;
-  }
-  .exports, .import-xl, .import-pdf {
-    display: none;
-  }
-}
+// @media print {
+//   table {
+//     page-break-before: always;
+//     border-collapse: collapse;
+//   }
+//   .exports, .import-xl, .import-pdf {
+//     display: none;
+//   }
+// }

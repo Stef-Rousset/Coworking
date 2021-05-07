@@ -86,13 +86,25 @@ class Building < ApplicationRecord
   end
 
   def self.two_services_booked
+
+    # service_bookings = ServiceBooking.arel_table
+    # group(buildings[:id])
+    # .order(buildings[:id])
+    # .left_joins(offices: { bookings: :service_bookings })
+    # .where(service_bookings[:service_id].gteq(2).or(service_bookings[:id].eq(nil)))
+    # .pluck(service_bookings[:id].count)
     buildings = Building.arel_table
-    service_bookings = ServiceBooking.arel_table
+    bookings = Booking.arel_table
+    booking_with_min_two_services = Booking.left_joins(:service_bookings)
+                                           .group(bookings[:id])
+                                           .having('count(booking_id) > 1')
+                                           .count.keys
+
     group(buildings[:id])
     .order(buildings[:id])
-    .left_joins(offices: { bookings: :service_bookings })
-    .where(service_bookings[:service_id].gteq(2).or(service_bookings[:id].eq(nil)))
-    .pluck(service_bookings[:id].count)
+    .left_joins(offices: :bookings)
+    .where(bookings[:id].in(booking_with_min_two_services).or(bookings[:id].eq(nil)))
+    .pluck(bookings[:id].count)
   end
 
   def self.big_bookings_price

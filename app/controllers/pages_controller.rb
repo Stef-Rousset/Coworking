@@ -33,15 +33,21 @@ class PagesController < ApplicationController
       format.xlsx {
         response.headers['Content-Disposition'] = 'attachment; filename="Buildings_stats.xlsx"'
       }
+      format.pdf {
+      html = render_to_string(:partial => "building_stats.html.erb", :layout => false)
+      kit = PDFKit.new(html, :orientation => 'Landscape')
+      kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/pages/dashboard.scss"
+      send_data(kit.to_pdf, :filename => "building_stats.pdf", :type => "application/pdf", :disposition => 'attachment')
+      }
     end
   end
 
-  def building_stats_as_pdf
-    @number_of_offices_per_building = Building.total_number_of_offices
-    @num_of_books = Building.total_number_of_bookings
-    @private_books = Building.private_bookings
-    @cowork_books = Building.cowork_bookings
-    @seven_days_bookings = Building.seven_days_ago_bookings
-  end
+  # def building_stats_as_pdf
+  #   @number_of_offices_per_building = Building.total_number_of_offices
+  #   @num_of_books = Building.total_number_of_bookings
+  #   @private_books = Building.private_bookings
+  #   @cowork_books = Building.cowork_bookings
+  #   @seven_days_bookings = Building.seven_days_ago_bookings
+  # end
 
 end

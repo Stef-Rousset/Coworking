@@ -1,0 +1,88 @@
+
+<table>
+  <tr>
+    <th class="first-column-width"></th>
+    <th class="column-title">Espace Foch</th>
+    <th class="column-title">Espace Chatelet</th>
+    <th class="column-title">Espace Pizay</th>
+    <th class="column-title">Espace Opera</th>
+  </tr>
+  <tr>
+    <th>Nombre total de bureaux</th>
+    <% @number_of_offices_per_building.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de réservations</th>
+    <% @num_of_books.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Réservations en bureau privé</th>
+    <% @private_books.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Réservations en cowork</th>
+    <% @cowork_books.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Réservations des 7 derniers jours</th>
+      <% @seven_days_bookings.each do |value| %>
+        <td><%= value %></td>
+      <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de clients</th>
+    <% @num_of_clients.each_value do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de services réservés</th>
+    <% @num_of_services.each do |value| %>
+      <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre de réservations avec au moins 2 services différents</th>
+    <% @two_services_booked.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nb de réservations >= 500€</th>
+    <% @big_bookings_price.each do |value| %>
+      <td><%= value %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de cafés</th>
+    <% @num_of_cafes.each do |value| %>
+      <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de thés</th>
+    <% @num_of_thes.each do |value| %>
+      <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total d'impressions</th>
+    <% @num_of_impressions.each do |value| %>
+      <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Nombre total de scans</th>
+    <% @num_of_scans.each do |value| %>
+      <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
+    <% end %>
+  </tr>
+</table>

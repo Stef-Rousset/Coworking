@@ -27,4 +27,12 @@ class Booking < ApplicationRecord
     # return dates
   end
 
+  # def self.with_min_two_services
+    # bookings = Booking.arel_table
+    # left_joins(:service_bookings).group(bookings[:id]).having('count(booking_id) > 1')
+    # .count =>
+    # {115=>3, 108=>2, 116=>3, 114=>2, 110=>2, 109=>2, 111=>2, 122=>3}
+    # .count.keys =>
+    #[115, 108, 116, 114, 110, 109, 111, 122]
+  # end
 end
