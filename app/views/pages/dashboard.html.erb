@@ -199,87 +199,7 @@
                   .pluck(service_bookings[:quantity]).sum %>
       </p>
       <h2>All buildings with Arel</h2>
-      <table>
-        <tr>
-          <th class="first-column-width"></th>
-          <th class="column-title">Espace Foch</th>
-          <th class="column-title">Espace Chatelet</th>
-          <th class="column-title">Espace Pizay</th>
-          <th class="column-title">Espace Opera</th>
-        </tr>
-        <tr>
-          <th>Nombre total de bureaux</th>
-          <% @number_of_offices_per_building.each do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total de réservations</th>
-          <% @num_of_books.each do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Réservations en bureau privé</th>
-          <% @private_books.each do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Réservations en cowork</th>
-          <% @cowork_books.each do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Réservations des 7 derniers jours</th>
-            <% @seven_days_bookings.each do |value| %>
-              <td><%= value %></td>
-            <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total de clients</th>
-          <% @num_of_clients.each_value do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total de services réservés</th>
-          <% @num_of_services.each do |value| %>
-            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre de réservations avec au moins 2 services différents</th>
-          <% @two_services_booked.each do |value| %>
-            <td><%= value %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total de cafés</th>
-          <% @num_of_cafes.each do |value| %>
-            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total de thés</th>
-          <% @num_of_thes.each do |value| %>
-            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total d'impressions</th>
-          <% @num_of_impressions.each do |value| %>
-            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
-          <% end %>
-        </tr>
-        <tr>
-          <th>Nombre total de scans</th>
-          <% @num_of_scans.each do |value| %>
-            <%= value.nil? ? content_tag(:td, 0) : content_tag(:td, value) %>
-          <% end %>
-        </tr>
-      </table>
+        <%= render "building_stats" %>
       <h2>Liste de tous les buildings avec les noms des bureaux qui fonctionne même si l'immeuble n'a pas de bureau</h2>
         <% buildings = Building.arel_table %>
         <% offices = Office.arel_table %>
@@ -294,8 +214,10 @@
           <%= Building.list_of_offices("Espace Opera").empty? ? "pas de bureaux" : Building.list_of_offices("Espace Opera").join(', ')%>
         </p>
         <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
-      <h2>Export excels</h2>
-      <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
+      <h2 class="exports">Exports excel et pdf</h2>
+        <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
+        <%= link_to 'Download stats as pdf', dashboard_path(format: "pdf"), class: 'btn btn-secondary import-pdf' %>
+        <%#= link_to "Building stats as pdf", building_stats_as_pdf_path(format: "pdf"), target: "_blank", class: 'btn btn-secondary import-pdf' %>
   </div>
   <!-- vue user -->
 <% else %>
@@ -306,7 +228,9 @@
       <ul>
         <li> > <%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
         <li>du <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
-        <li class="user_booking_price">prix : €
+        <li class="user_booking_price">prix :
+            <%= booking.price == nil ? 0 : rounded_number(booking.price, 1) %>€
+
          </li>
       </ul>
     </div>

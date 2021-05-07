@@ -24,9 +24,12 @@ module Coworking
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     config.action_view.embed_authenticity_token_in_remote_forms = true
-
+    #i18n traduction
     config.i18n.available_locales = [:en, :fr]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = true
+    #pdfkit
+    #config.middleware.use PDFKit::Middleware, :print_media_type => true
+
   end
 end

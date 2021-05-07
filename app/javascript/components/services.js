@@ -4,6 +4,8 @@ import { totalPriceWithoutService } from '../plugins/fullCalendar';
 const services = () => {
 
   let totalPriceWithServices;
+  const price = document.querySelector('#booking_price');
+  const validateButton = document.querySelector('.validate-button');
   const serviceField = document.querySelector('.services-fields');
   if (serviceField) {
       const priceDiv = document.querySelector('.priceSummary');
@@ -38,6 +40,9 @@ const services = () => {
               }
             })
         });
+      })
+      validateButton.addEventListener('mouseenter', event => {
+        price.value = totalPriceWithServices || totalPriceWithoutService ;
       })
   }
 };

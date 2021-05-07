@@ -93,6 +93,17 @@ table {
 .first-column-width {
   width: 15%;
 }
-.import-xl {
+.import-xl, .import-pdf {
   width: 20%;
+  margin-top: 2rem;
 }
+/* mise en page en pdf */
+// @media print {
+//   table {
+//     page-break-before: always;
+//     border-collapse: collapse;
+//   }
+//   .exports, .import-xl, .import-pdf {
+//     display: none;
+//   }
+// }
