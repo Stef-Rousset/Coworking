@@ -1,0 +1,6 @@
+document.getElementById('discount-<%= @discount.id %>').remove();
+
+if (document.querySelector('.discount-list-<%= @discount.office_id %>').children.length === 0) {
+  document.querySelector('.tag-modal-<%= @discount.office_id %>').remove();
+}
+

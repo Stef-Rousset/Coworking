@@ -31,12 +31,12 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html
       format.xlsx {
-        response.headers['Content-Disposition'] = 'attachment; filename="Buildings_stats.xlsx"'
+        response.headers['Content-Disposition'] = ' attachment; filename="Buildings_stats.xlsx" '
       }
       format.pdf {
       html = render_to_string(:partial => "building_stats.html.erb", :layout => false)
       kit = PDFKit.new(html, :orientation => 'Landscape')
-      kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/pages/dashboard.scss"
+      #kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/pages/dashboard.scss"
       send_data(kit.to_pdf, :filename => "building_stats.pdf", :type => "application/pdf", :disposition => 'attachment')
       }
     end

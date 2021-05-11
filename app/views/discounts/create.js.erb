@@ -1,0 +1,10 @@
+if (document.querySelector('.tag-modal-<%= @discount.office_id %>') != null) {
+  document.querySelector('.tag-modal-<%= @discount.office_id %>').remove();
+}
+document.querySelector(".office-card__title<%= @discount.office_id %>")
+.insertAdjacentHTML('afterend', "<%= j render partial: 'offices/modal-discounts', locals: { office: @discount.office } %>")
+
+
+
+
+
