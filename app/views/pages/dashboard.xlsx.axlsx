@@ -9,17 +9,20 @@ wb.styles do |style|
                                    alignment: { horizontal: :center })
   first_column_cell = style.add_style(b: true)
   normal_cell = style.add_style(alignment: { horizontal: :center })
-
+  date_cell = style.add_style(format_code: "yyyy-mm-dd", alignment: { horizontal: :center })
 
   wb.add_worksheet(name: "Buildings") do |sheet|
-  sheet.add_row
-  sheet.add_row ['Buildings stats'], style: header
-  sheet.add_row
-    sheet.add_row ["Nom du Building", "Nombre de bureaux", "Nombre total de réservations"], style: highlight_cell
+    sheet.add_row
+    sheet.add_row ['Buildings stats'], style: header
+    sheet.add_row
+    sheet.add_row ["Nom du Building", "Date de création", "Nombre de bureaux", "Nombre total de réservations"], style: highlight_cell
     @buildings.each_with_index do |building, index|
-      sheet.add_row [building.name, building.offices.size, Building.total_number_of_services[index]],
-                    style: [first_column_cell, normal_cell, normal_cell]
+      sheet.add_row [building.name, building.created_at, building.offices.size, Building.total_number_of_services[index]],
+                    style: [first_column_cell, date_cell, normal_cell, normal_cell]
     end
-    sheet.merge_cells('A2:C2')
+    sheet.add_row
+    sheet.add_row ["Totaux","", "=SUM(C5:C8)", "=SUM(D5:D8)"], style: [first_column_cell, nil, normal_cell, normal_cell]
+
+    sheet.merge_cells('A2:D2')
   end
 end
