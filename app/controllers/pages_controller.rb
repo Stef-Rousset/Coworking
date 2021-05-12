@@ -25,6 +25,8 @@ class PagesController < ApplicationController
     @two_services_booked = Building.two_services_booked
     @big_bookings_price = Building.big_bookings_price
 
+    #pour le file excel Espace Foch
+    @building = Building.find(46)
     # vue user
     @bookings = Booking.where(user_id: current_user.id)
 
