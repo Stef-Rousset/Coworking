@@ -36,7 +36,7 @@
               method: :delete, data: { confirm: "Are you sure" } %>
         </div>
         <div class="office-card__form">
-          <h4 class="add_discount" data-number="<%= office.id %>">Ajouter une réduction</h4>
+          <h4 class="add_discount" data-number="<%= office.id %>">Ajouter une réduction ▽</h4>
           <div class="discount-form hide-discount-form" data-number="<%= office.id %>">
             <%= simple_form_for([office, @discount], remote: true) do |f| %>
               <%= f.input :amount, :label => "Montant" %>
@@ -55,6 +55,11 @@
   const forms = document.querySelectorAll('.discount-form');
   linksToDiscountForm.forEach( linkToDiscountForm => {
       linkToDiscountForm.addEventListener('click', event => {
+          if (linkToDiscountForm.innerText === 'Ajouter une réduction ▽') {
+            linkToDiscountForm.innerText = 'Ajouter une réduction △';
+          } else if (linkToDiscountForm.innerText === 'Ajouter une réduction △'){
+            linkToDiscountForm.innerText = 'Ajouter une réduction ▽';
+          }
           forms.forEach(form => {
             if (form.dataset.number === event.currentTarget.dataset.number){;
               form.classList.toggle('hide-discount-form');
