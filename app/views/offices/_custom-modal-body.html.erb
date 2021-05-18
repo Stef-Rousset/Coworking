@@ -1,0 +1,17 @@
+<div class="custom-modal-body-<%= office.id %>">
+  <ul class="discount-list-<%= office.id %>">
+    <% office.discounts.each do |discount| %>
+      <li id="discount-<%= discount.id %>">
+        <% if discount.end_date >= Date.today && !current_user.admin? %>
+          <%= rounded_number(discount.amount, 100) %> %
+            (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
+        <% else %>
+          <%= rounded_number(discount.amount, 100) %> %
+          (du <%= discount.start_date.strftime("%e/%m/%Y") %> au <%= discount.end_date.strftime("%e/%m/%Y") %>)
+            <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, discount_path(discount),
+            method: :delete, remote: true, data: { confirm: "Are you sure ?" } %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

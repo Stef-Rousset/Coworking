@@ -1,0 +1,40 @@
+.custom-modal {
+  width: 30vw;
+  height: auto;
+  background-color: #FDFAF6;
+  box-shadow: 1px 1px 3px darken(#FDFAF6, 20);
+  position: fixed;
+  bottom: 40%;
+  left: 32%;
+  z-index: 2;
+  padding: 20px;
+  &-body {
+    margin: 20px 0;
+    padding: 10px;
+  }
+  h5 {
+    font-weight: bold;
+    color: black;
+  }
+  button {
+    margin-top: 5%;
+  }
+}
+.hide-modal {
+  display: none;
+}
+.show-modal {
+  display: block;
+  animation: scale-modal 1000ms backwards;
+}
+@keyframes scale-modal {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+

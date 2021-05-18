@@ -28,6 +28,8 @@ import "../plugins/fullCalendar";
 // import { initSelect2 } from '../components/init_select2';
 
 import { services } from '../components/services' ;
+import { linksToDiscountForm } from '../components/linksToDiscountForm' ;
+import { customModal } from '../components/customModal' ;
 import { fullCalendar } from '../plugins/fullCalendar' ;
 
 document.addEventListener('turbolinks:load', () => {
@@ -36,4 +38,6 @@ document.addEventListener('turbolinks:load', () => {
   //calendar();
   fullCalendar();
   services();
+  linksToDiscountForm();
+  customModal();
 });

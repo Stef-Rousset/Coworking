@@ -28,7 +28,8 @@ class PagesController < ApplicationController
     #pour le file excel Espace Foch
     @building = Building.find(46)
     # vue user
-    @bookings = Booking.where(user_id: current_user.id)
+    @last_five_bookings = Booking.where(user_id: current_user.id).order(created_at: :asc).last(5).reverse
+    @bookings = Booking.where(user_id: current_user.id).order(created_at: :asc)
 
     respond_to do |format|
       format.html

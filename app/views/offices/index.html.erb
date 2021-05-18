@@ -14,7 +14,8 @@
         <h3 class="office-card__title<%= office.id %>"><%= office.name.capitalize %></h3>
           <% if !office.discounts.empty? %>
             <!-- Modal -->
-              <%= render 'modal-discounts', office: office %>
+              <%#= render 'modal-discounts', office: office %>
+              <%= render 'custom-modal', office: office %>
             <!-- end Modal -->
         <% end %>
       </div>
@@ -42,7 +43,7 @@
               <%= f.input :amount, :label => "Montant" %>
               <%= f.input :start_date, as: :date %>
               <%= f.input :end_date, as: :date %>
-              <%= f.submit "Valider", class: 'btn btn-secondary' %>
+              <%= f.submit "Valider", class: 'btn btn-secondary validate-discount' %>
             <% end %>
           </div>
         </div>
@@ -50,7 +51,7 @@
     </div>
   <% end %>
 </div>
-<script>
+<!-- <script>
   let linksToDiscountForm = document.querySelectorAll('.add_discount');
   const forms = document.querySelectorAll('.discount-form');
   linksToDiscountForm.forEach( linkToDiscountForm => {
@@ -68,6 +69,5 @@
           });
       })
   })
-
-</script>
+</script> -->
 

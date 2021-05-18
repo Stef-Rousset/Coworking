@@ -1,10 +1,25 @@
-if (document.querySelector('.tag-modal-<%= @discount.office_id %>') != null) {
-  document.querySelector('.tag-modal-<%= @discount.office_id %>').remove();
+// if (document.querySelector('.tag-modal-<%= @discount.office_id %>') != null) {
+//   document.querySelector('.tag-modal-<%= @discount.office_id %>').remove();
+// }
+// document.querySelector(".office-card__title<%= @discount.office_id %>")
+// .insertAdjacentHTML('afterend', "<%= j render partial: 'offices/modal-discounts', locals: { office: @discount.office } %>")
+
+
+// if (document.querySelector('.custom-modal-<%= @discount.office_id %>') != null) {
+//   document.querySelector('.custom-modal-<%= @discount.office_id %>').remove();
+// }
+// document.querySelector(".tag-modal<%= @discount.office_id %>")
+// .insertAdjacentHTML('afterend', "<%= j render partial: 'offices/custom-modal', locals: { office: @discount.office } %>")
+
+
+
+if (document.querySelector('#custom-modal-<%= @discount.office_id %>') != null) {
+  document.querySelector('.custom-modal-body-<%= @discount.office_id %>').remove();
+  document.querySelector('#custom-modal-<%= @discount.office_id %>-label')
+  .insertAdjacentHTML('afterend',"<%= j render partial: 'offices/custom-modal-body', locals: { office: @discount.office } %>");
 }
-document.querySelector(".office-card__title<%= @discount.office_id %>")
-.insertAdjacentHTML('afterend', "<%= j render partial: 'offices/modal-discounts', locals: { office: @discount.office } %>")
-
-
-
-
+else {
+  document.querySelector('.office-card__title<%= @discount.office_id %>')
+  .insertAdjacentHTML('afterend', "<%= j render partial: 'offices/custom-modal', locals: { office: @discount.office } %>");
+}
 
