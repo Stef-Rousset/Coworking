@@ -1,79 +1,90 @@
-<div class="offices-title">
-  <h2>Liste des bureaux "<%= @building.name %>"</h2>
-  <% if current_user.admin? %>
-    <div class="offices-title__links">
-      <%= link_to "Ajouter un bureau", new_building_office_path(@building), class: "btn btn-secondary" %>
-      <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-secondary' %>
-    </div>
-    <% else %>
+<div class="offices-index-container">
+  <div class="offices-title">
+    <h2>Liste des bureaux "<%= @building.name %>"</h2>
+      <% if current_user.admin? %>
+        <div class="offices-title__links">
+          <%= link_to "Ajouter un bureau", new_building_office_path(@building), class: "btn btn-secondary" %>
+          <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-secondary' %>
+        </div>
+      <% end %>
+  </div>
+  <div class="offices-index-content">
     <div class="offices-search">
-      <h3>Filtrer les bureaux par </h3>
+      <h3>Filtres </h3>
       <%= form_with(url: building_offices_path(@building), method: 'get', local: true, class: "offices-search-form") do %>
         <div class="offices-price-search">
-          <%= label_tag "office_price_min", 'Prix mini (€/h)' %>
+          <%= label_tag "office_price_min", 'Prix min ' %>
           <%= number_field_tag 'office_price_min', nil, min: 0, max: 60, step: 5 %>
-          <%= label_tag "office_price_max", 'Prix maxi (€/h)' %>
+          <%= label_tag "office_price_max", 'Prix max' %>
           <%= number_field_tag 'office_price_max', nil, min: 0, max: 60, step: 5 %>
+          <p> €/h</p>
         </div>
         <div class="offices-discount-search">
-          <label for="discount">Avec réduction</label>
-          <%= check_box_tag 'discount' %>
+          <%= label_tag "discount_min", 'Réduction de' %>
+          <%= number_field_tag 'discount_min', nil, min: 0, max: 50, step: 5 %>
+          <%= label_tag "discount_max", 'à' %>
+          <%= number_field_tag 'discount_max',nil, min: 0, max: 50, step: 5 %>
+          <p> %</p>
         </div>
         <div class="offices-date-search">
           <%= label_tag 'date', 'Date de réservation' %>
           <%= date_field_tag 'date' %>
         </div>
         <%= submit_tag 'Rechercher', class: 'btn btn-secondary offices-search-form-button' %>
-    <% end %>
-      <% if params[:discount].present? || params[:office_price_min].present? || params[:office_price_max].present? || params[:date].present?%>
-        <%= link_to 'Back', building_offices_path(@building), class: 'btn btn-secondary' %>
       <% end %>
-    </div>
-  <% end %>
-</div>
-<div class="offices-details">
-  <% @offices.each do |office| %>
-    <div class="office-card">
-      <div class="office-card__title">
-        <h3 class="office-card__title<%= office.id %>"><%= office.name.capitalize %></h3>
-          <% if !office.discounts.empty? %>
-            <!-- Modal -->
-              <%#= render 'modal-discounts', office: office %>
-              <%= render 'custom-modal', office: office %>
-            <!-- end Modal -->
-        <% end %>
-      </div>
-      <div class="office-card__text">
-        <p><%= office.places_number %> place(s)</p>
-        <% if current_user.admin? %>
-          <p><%= rounded_number(office.price, 1) %><i class="fas fa-euro-sign"></i>/min</p>
-        <% else %>
-          <p><%= rounded_number(office.price, 60) %><i class="fas fa-euro-sign"></i>/h</p>
-        <% end %>
-      </div>
-      <% if !current_user.admin? %>
-        <%= link_to 'Réserver', office_path(office), class: 'btn btn-secondary' %>
-      <% end %>
-      <% if current_user.admin? %>
-        <div class="office-card__links">
-          <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>
-          <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, office_path(office),
-              method: :delete, data: { confirm: "Are you sure" } %>
+        <div class="offices-clear-search">
+          <% if params[:discount].present? || params[:office_price_min].present? ||
+                params[:office_price_max].present? || params[:discount_max].present? ||
+                params[:discount_min].present? ||  params[:date].present?%>
+            <%= link_to 'Clear search', building_offices_path(@building), class: 'btn btn-secondary' %>
+          <% end %>
         </div>
-        <div class="office-card__form">
-          <h4 class="add_discount" data-number="<%= office.id %>">Ajouter une réduction ▽</h4>
-          <div class="discount-form hide-discount-form" data-number="<%= office.id %>">
-            <%= simple_form_for([office, @discount], remote: true) do |f| %>
-              <%= f.input :amount, :label => "Montant" %>
-              <%= f.input :start_date, as: :date %>
-              <%= f.input :end_date, as: :date %>
-              <%= f.submit "Valider", class: 'btn btn-secondary validate-discount' %>
+    </div>
+    <div class="offices-details">
+      <% @offices.each do |office| %>
+        <div class="office-card">
+          <div class="office-card__title">
+            <h3 class="office-card__title<%= office.id %>"><%= office.name.capitalize %></h3>
+              <% if current_user.admin? && !office.discounts.empty? %>
+                <!-- Modal -->
+                  <%= render 'custom-modal', office: office %>
+                <!-- end Modal -->
+              <% elsif !office.discounts.empty? && !office.discounts.select{ |discount| discount.end_date >= Date.today }.empty? %>
+                <%= render 'custom-modal', office: office %>
             <% end %>
           </div>
+          <div class="office-card__text">
+            <p><%= office.places_number %> place(s)</p>
+            <% if current_user.admin? %>
+              <p><%= rounded_number(office.price, 1) %><i class="fas fa-euro-sign"></i>/min</p>
+            <% else %>
+              <p><%= rounded_number(office.price, 60) %><i class="fas fa-euro-sign"></i>/h</p>
+            <% end %>
+          </div>
+          <% if !current_user.admin? %>
+            <%= link_to 'Réserver', office_path(office), class: 'btn btn-secondary' %>
+          <% end %>
+          <% if current_user.admin? %>
+            <div class="office-card__links">
+              <%= link_to '<i class="far fa-edit"></i>'.html_safe,  edit_office_path(office) %>
+              <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, office_path(office),
+                  method: :delete, data: { confirm: "Are you sure" } %>
+            </div>
+            <div class="office-card__form">
+              <h4 class="add_discount" data-number="<%= office.id %>">Ajouter une réduction ▽</h4>
+              <div class="discount-form hide-discount-form" data-number="<%= office.id %>">
+                <%= simple_form_for([office, @discount], remote: true) do |f| %>
+                  <%= f.input :amount, :label => "Montant" %>
+                  <%= f.input :start_date, as: :date %>
+                  <%= f.input :end_date, as: :date %>
+                  <%= f.submit "Valider", class: 'btn btn-secondary validate-discount' %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>
-  <% end %>
+  </div>
 </div>
-
 

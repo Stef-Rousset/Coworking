@@ -6,7 +6,7 @@ class OfficesController < ApplicationController
     @building = Building.find(params[:building_id])
     @offices = @building.offices
     @offices = @offices.filter_by_price(params[:office_price_min], params[:office_price_max]) if params[:office_price_min].present? || params[:office_price_max].present?
-    @offices = @offices.filter_by_discount(params[:discount]) if params[:discount].present?
+    @offices = @offices.filter_by_discount(params[:discount_min], params[:discount_max]) if params[:discount_min].present? || params[:discount_max].present?
     @offices = @offices.filter_by_available_date(params[:date]) if params[:date].present?
 
     @discount = Discount.new

@@ -2,8 +2,8 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :home ]
 
   def home
-    @buildings = Building.all.shuffle.first(3)
-    @buildings_search = Building.address_search(params[:address_search])
+    @buildings = Building.all.shuffle.first(4)
+    @buildings = Building.address_search(params[:address_search]) if params[:address_search].present?
   end
 
   def dashboard

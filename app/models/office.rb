@@ -19,8 +19,14 @@ class Office < ApplicationRecord
   #scope :filter_by_price, -> (office_price_min, office_price_max) { where("price >= ? AND price <= ?", (office_price_min.to_f / 60), (office_price_max.to_f / 60))}
 
 
-  def self.filter_by_discount(discount)
-    joins(:discounts).distinct
+  def self.filter_by_discount(discount_min = 0, discount_max = 0)
+    discounts = Discount.arel_table
+    joins(:discounts)
+    .where(discounts[:amount].gteq(discount_min.to_f / 100)
+      .and(discounts[:amount].lteq(discount_max.to_f / 100))
+      .and(discounts[:end_date]).gteq(Date.today))
+    .distinct
+    # joins(:discounts).distinct
   end
 
   def self.filter_by_price(office_price_min = 0, office_price_max = 0)

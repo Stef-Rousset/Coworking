@@ -39,6 +39,8 @@
 
 }
 .building-search {
+  display: flex;
+  justify-content: space-evenly;
   margin: 2rem;
   input {
     height: 4vh;
@@ -53,7 +55,4 @@
     font-size: 1rem;
   }
 }
-.building-search-results {
-  margin-top: 2rem;
-  margin-bottom: 4rem;
-}
+
