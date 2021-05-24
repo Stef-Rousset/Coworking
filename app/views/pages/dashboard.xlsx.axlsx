@@ -10,6 +10,7 @@ wb.styles do |style|
   first_column_cell = style.add_style(b: true)
   normal_cell = style.add_style(alignment: { horizontal: :center })
   date_cell = style.add_style(format_code: "yyyy-mm-dd", alignment: { horizontal: :center })
+  two_digit_cell = style.add_style(format_code: "#,##0.00", alignment: { horizontal: :center })
 
   wb.add_worksheet(name: "Buildings") do |sheet|
     sheet.add_row
@@ -22,7 +23,19 @@ wb.styles do |style|
     end
     sheet.add_row
     sheet.add_row ["Totaux","", "=SUM(C5:C8)", "=SUM(D5:D8)"], style: [first_column_cell, nil, normal_cell, normal_cell]
+    sheet.add_row ["Moyennes", "", "=AVERAGE(C5:C8)", "=AVERAGE(D5:D8)"], style: [first_column_cell, nil, two_digit_cell, two_digit_cell]
 
     sheet.merge_cells('A2:D2')
+  end
+
+  wb.add_worksheet(name: "Bureaux Espace Foch") do |sheet|
+    sheet.add_row
+    sheet.add_row ['Bureaux Espace Foch'], style: header
+    sheet.add_row
+    sheet.add_row ['Nom du bureau', 'Nombre de places', 'Nombre de réervations'], style: highlight_cell
+    @building.offices.each do |office|
+      sheet.add_row [office.name, office.places_number, office.bookings.size], style: normal_cell
+    end
+    sheet.merge_cells('A2:C2')
   end
 end

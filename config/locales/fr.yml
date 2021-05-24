@@ -39,6 +39,9 @@ fr:
             <li>Espace de restauration rapide</li>
             <li>Et plus encore...</li>
           </ul>"
+      buildings-search-title: "Recherche par localisation"
+      buildings-search-search: "Rechercher"
+      buildings-search-results: "Resultats"
       buildings-title: "Découvrez nos différents espaces"
       building-card-name: "%{building.name}"
       building-card-address: "%{building.address}"

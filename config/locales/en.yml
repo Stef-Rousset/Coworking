@@ -56,7 +56,7 @@ en:
       intro-text: "Our coworking spaces are designed for collaboration. Choose
           your ideal center among our different addresses, and come and work within
           a community of professionals who resemble you. We offer you
-          to reserve a private office or to reserve a workstation within
+          to book a private office or to book a workstation within
           our shared spaces."
       services-title: "Our services"
       services-text_html: "Our coworking spaces are fully equipped, you can get down to business as soon as you arrive !<br>
@@ -68,6 +68,9 @@ en:
             <li>Relaxation area</li>
             <li>fast food area</li>
             <li>And a lot more...</li>"
+      buildings-search-title: "Search by location"
+      buildings-search-search: "Search"
+      buildings-search-results: "Results"
       buildings-title: "Discover our different spaces"
       building-card-name: "%{name}"
       building-card-address: "%{address}"

@@ -38,3 +38,21 @@
   margin-left: 1rem;
 
 }
+.building-search {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2rem;
+  input {
+    height: 4vh;
+    font-size: 1rem;
+    width: 30vw;
+  }
+  input[type="submit"] {
+    height: 4vh;
+    width: auto;
+    background-color: grey;
+    color: white;
+    font-size: 1rem;
+  }
+}
+

@@ -2,7 +2,8 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :home ]
 
   def home
-    @buildings = Building.all.shuffle.first(3)
+    @buildings = Building.all.shuffle.first(4)
+    @buildings = Building.address_search(params[:address_search]) if params[:address_search].present?
   end
 
   def dashboard
@@ -25,8 +26,11 @@ class PagesController < ApplicationController
     @two_services_booked = Building.two_services_booked
     @big_bookings_price = Building.big_bookings_price
 
+    #pour le file excel Espace Foch
+    @building = Building.find(46)
     # vue user
-    @bookings = Booking.where(user_id: current_user.id)
+    @last_five_bookings = Booking.where(user_id: current_user.id).order(created_at: :asc).last(5).reverse
+    @bookings = Booking.where(user_id: current_user.id).order(created_at: :asc)
 
     respond_to do |format|
       format.html

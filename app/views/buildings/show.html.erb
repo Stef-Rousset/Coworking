@@ -20,7 +20,9 @@
       <ul>
         <li>Bureau privé :
           <span class="office-price">
-            <%= rounded_number(@offices.limit(1).privates.first.price, 60) %>
+            de <%= rounded_number(@offices.privates.order('price asc').first.price, 60) %>
+            à <%= rounded_number(@offices.privates.order('price asc').last.price, 60) %>
+            <%#= rounded_number(@offices.limit(1).privates.first.price, 60) %>
             <i class="fas fa-euro-sign"></i>/h
           </span>
         </li>
