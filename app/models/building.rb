@@ -11,6 +11,14 @@ class Building < ApplicationRecord
 
   private
 
+  def self.address_search(search)
+    if search
+      where(["address ILIKE ?", "%#{search}%"])
+    else
+      return
+    end
+  end
+
   #methode avec un left_outer_join (alias left_joins) pour gerer les champs vides
   def self.total_number_of_offices
     buildings = Building.arel_table
@@ -86,13 +94,6 @@ class Building < ApplicationRecord
   end
 
   def self.two_services_booked
-
-    # service_bookings = ServiceBooking.arel_table
-    # group(buildings[:id])
-    # .order(buildings[:id])
-    # .left_joins(offices: { bookings: :service_bookings })
-    # .where(service_bookings[:service_id].gteq(2).or(service_bookings[:id].eq(nil)))
-    # .pluck(service_bookings[:id].count)
     buildings = Building.arel_table
     bookings = Booking.arel_table
     booking_with_min_two_services = Booking.left_joins(:service_bookings)

@@ -1,24 +1,12 @@
-<!-- <div class="my-modal my-modal-<%= office.id %>"> -->
-  <p class="tag-modal<%= office.id %>"><i class="fas fa-tag" data-id="<%= office.id %>"></i></p>
-  <div class="custom-modal hide-modal" id="custom-modal-<%= office.id %>" data-id="<%= office.id %>" role="dialog" aria-labelledby="custom-modal-<%= office.id %>-label" aria-hidden='true' >
-    <h5 class="custom-modal-title" id="custom-modal-<%= office.id %>-label">Réductions</h5>
 
-    <%= render 'offices/custom-modal-body', office: office%>
-    <button class="close-custom-modal btn btn-secondary" id="close-modal-<%= office.id %>" data-id="<%= office.id %>">Fermer</button>
-  </div>
-<!-- </div> -->
+<p class="tag-modal<%= office.id %>"><i class="fas fa-tag" data-id="<%= office.id %>"></i></p>
+<div class="custom-modal hide-modal" id="custom-modal-<%= office.id %>" data-id="<%= office.id %>" role="dialog" aria-labelledby="custom-modal-<%= office.id %>-label" aria-hidden='true' >
+  <h5 class="custom-modal-title" id="custom-modal-<%= office.id %>-label">Réductions</h5>
 
-<!-- <script>
-  let tagButton<%= office.id %> = document.querySelector('.tag-modal<%= office.id %>');
-  let customModal<%= office.id %> = document.getElementById('custom-modal-<%= office.id %>');
-  let customModalCloseButton<%= office.id %> = document.querySelector('.close-custom-modal-<%= office.id %>');
-  tagButton<%= office.id %>.addEventListener('click', event => {
-    customModal<%= office.id %>.classList.toggle('hide-modal');
-    customModal<%= office.id %>.classList.toggle('show-modal');
-  })
-  customModalCloseButton<%= office.id %>.addEventListener('click', event => {
-    customModal<%= office.id %>.classList.toggle('show-modal');
-    customModal<%= office.id %>.classList.toggle('hide-modal');
-  })
-</script> -->
+  <%= render 'offices/custom-modal-body', office: office%>
+  <button class="close-custom-modal btn btn-secondary" id="close-modal-<%= office.id %>" data-id="<%= office.id %>">Fermer</button>
+</div>
+
+
+
 

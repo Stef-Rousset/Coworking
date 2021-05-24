@@ -1,8 +1,20 @@
 .offices-title {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 2rem;
+}
+.offices-search {
+  margin: 2rem;
+}
+.offices-search-form {
+  display: flex;
+  flex-direction: column;
+  &-button {
+    width: 35%;
+    align-self: center;
+  }
 }
 .offices-details {
   width: 95vh;

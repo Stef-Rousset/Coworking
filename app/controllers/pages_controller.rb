@@ -3,6 +3,7 @@ class PagesController < ApplicationController
 
   def home
     @buildings = Building.all.shuffle.first(3)
+    @buildings_search = Building.address_search(params[:address_search])
   end
 
   def dashboard

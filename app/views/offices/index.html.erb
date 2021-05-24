@@ -5,6 +5,30 @@
       <%= link_to "Ajouter un bureau", new_building_office_path(@building), class: "btn btn-secondary" %>
       <%= link_to "Back to dashboard", dashboard_path, class: 'btn btn-secondary' %>
     </div>
+    <% else %>
+    <div class="offices-search">
+      <h3>Filtrer les bureaux par </h3>
+      <%= form_with(url: building_offices_path(@building), method: 'get', local: true, class: "offices-search-form") do %>
+        <div class="offices-price-search">
+          <%= label_tag "office_price_min", 'Prix mini (€/h)' %>
+          <%= number_field_tag 'office_price_min', nil, min: 0, max: 60, step: 5 %>
+          <%= label_tag "office_price_max", 'Prix maxi (€/h)' %>
+          <%= number_field_tag 'office_price_max', nil, min: 0, max: 60, step: 5 %>
+        </div>
+        <div class="offices-discount-search">
+          <label for="discount">Avec réduction</label>
+          <%= check_box_tag 'discount' %>
+        </div>
+        <div class="offices-date-search">
+          <%= label_tag 'date', 'Date de réservation' %>
+          <%= date_field_tag 'date' %>
+        </div>
+        <%= submit_tag 'Rechercher', class: 'btn btn-secondary offices-search-form-button' %>
+    <% end %>
+      <% if params[:discount].present? || params[:office_price_min].present? || params[:office_price_max].present? || params[:date].present?%>
+        <%= link_to 'Back', building_offices_path(@building), class: 'btn btn-secondary' %>
+      <% end %>
+    </div>
   <% end %>
 </div>
 <div class="offices-details">
@@ -51,23 +75,5 @@
     </div>
   <% end %>
 </div>
-<!-- <script>
-  let linksToDiscountForm = document.querySelectorAll('.add_discount');
-  const forms = document.querySelectorAll('.discount-form');
-  linksToDiscountForm.forEach( linkToDiscountForm => {
-      linkToDiscountForm.addEventListener('click', event => {
-          if (linkToDiscountForm.innerText === 'Ajouter une réduction ▽') {
-            linkToDiscountForm.innerText = 'Ajouter une réduction △';
-          } else if (linkToDiscountForm.innerText === 'Ajouter une réduction △'){
-            linkToDiscountForm.innerText = 'Ajouter une réduction ▽';
-          }
-          forms.forEach(form => {
-            if (form.dataset.number === event.currentTarget.dataset.number){;
-              form.classList.toggle('hide-discount-form');
-              form.classList.toggle('show-discount-form');
-            }
-          });
-      })
-  })
-</script> -->
+
 
