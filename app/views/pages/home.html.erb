@@ -2,29 +2,41 @@
   <div class="intro">
     <div class="intro__esprit">
       <h2><%= t '.intro-title' %></h2>
-      <p class="text"><%= t '.intro-text' %>
-      </p>
+      <div class="intro-paragraph">
+        <%= image_tag "workspace_bg.png", alt: "espace de cowork"%>
+        <div class="intro-text">
+          <p class="text"><%= t '.intro-text' %></p>
+          <button class='btn btn-secondary home-search'><%= t '.intro-button' %></button>
+          <div class="building-search">
+            <% if root_path == '/fr' %>
+              <% url = '/fr#search-action' %>
+            <% else %>
+              <% url = '/#search-action' %>
+            <% end %>
+              <%= form_with(url: url, method: 'get', local: true, class: 'home-search-form hide-home-search-form') do %>
+                <%= text_field_tag 'address_search', nil, placeholder: 'Paris' %>
+                <%= submit_tag t '.buildings-search-search' %>
+              <% end %>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="intro__services">
       <h2><%= t '.services-title' %></h2>
-      <div class="text">
-        <p><%= t '.services-text_html' %>
-          <%= t '.services-list_html' %>
-        </p>
+      <div class="services-paragraph">
+        <div class="services-text">
+          <p><%= t '.services-text_html' %>
+            <%= t '.services-list_html' %>
+          </p>
+        </div>
+        <%= image_tag 'working_bg.png', alt: 'bureau' %>
       </div>
     </div>
   </div>
 
   <div class="buildings">
-    <h2><%= t '.buildings-title' %></h2>
-    <div class="building-search">
-      <h3 id="search-action"><%= t '.buildings-search-title' %></h3>
-      <%= form_with(url: '/#search-action', method: 'get', local: true) do %> <!-- ancre ds l'url -->
-        <%= text_field_tag 'address_search', nil, placeholder: 'Paris' %>
-        <%= submit_tag t '.buildings-search-search' %>
-      <% end %>
-  </div>
-    <div class="building-cards">
+    <h2 id="search-action"><%= t '.buildings-title' %></h2>
+    <div class="building-cards" >
       <% @buildings.each do |building| %>
         <div class="building-card">
           <%= link_to building_path(building) do %>
@@ -45,3 +57,4 @@
     </div>
   </div>
 </section>
+

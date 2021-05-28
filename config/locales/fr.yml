@@ -27,6 +27,7 @@ fr:
          d'une communauté de professionnels qui vous ressemblent. Nous vous proposons
          de réserver un bureau privé ou de réserver un poste de travail au sein de
          nos espaces partagés."
+      intro-button: "Trouver votre espace de travail"
       services-title: "Nos services"
       services-text_html: "Nos espaces de coworking sont entièrement équipés, vous pouvez vous mettre au travail dès votre arrivée !<br>
           Nous mettons à votre dispositon: "
@@ -39,7 +40,6 @@ fr:
             <li>Espace de restauration rapide</li>
             <li>Et plus encore...</li>
           </ul>"
-      buildings-search-title: "Recherche par localisation"
       buildings-search-search: "Rechercher"
       buildings-search-results: "Resultats"
       buildings-title: "Découvrez nos différents espaces"

@@ -21,16 +21,28 @@ class Office < ApplicationRecord
 
   def self.filter_by_discount(discount_min = 0, discount_max = 0)
     discounts = Discount.arel_table
-    joins(:discounts)
-    .where(discounts[:amount].gteq(discount_min.to_f / 100)
-      .and(discounts[:amount].lteq(discount_max.to_f / 100))
+    if discount_max == ''
+      joins(:discounts)
+      .where(discounts[:amount].gteq(discount_min.to_f / 100)
       .and(discounts[:end_date]).gteq(Date.today))
-    .distinct
-    # joins(:discounts).distinct
+      .distinct
+    else
+      joins(:discounts)
+      .where(discounts[:amount].gteq(discount_min.to_f / 100)
+        .and(discounts[:amount].lteq(discount_max.to_f / 100))
+        .and(discounts[:end_date]).gteq(Date.today))
+      .distinct
+    end
   end
 
   def self.filter_by_price(office_price_min = 0, office_price_max = 0)
-    where(price: (office_price_min.to_f / 60)..(office_price_max.to_f / 60))
+    if office_price_max == ''
+      where(price: (office_price_min.to_f / 60)..60)
+      #le prix max est 60€
+    else
+      where(price: (office_price_min.to_f / 60)..(office_price_max.to_f / 60))
+      #le prix est à la min d'ou on divise par 60
+    end
   end
 
   def self.filter_by_available_date(date)
@@ -40,7 +52,6 @@ class Office < ApplicationRecord
     left_joins(:bookings)
     .where(bookings[:id].eq(nil).or(bookings[:start_date].gt(date)).or(bookings[:end_date].lt(date)))
     .distinct
-
   end
 
 end
