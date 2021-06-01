@@ -37,8 +37,8 @@
   <div class="buildings">
     <h2 id="search-action"><%= t '.buildings-title' %></h2>
     <div class="building-cards" >
-      <% @buildings.each do |building| %>
-        <div class="building-card">
+      <% @buildings.each_with_index do |building, index| %>
+        <div class="building-card" data-index="<%= index %>" >
           <%= link_to building_path(building) do %>
             <div class="building-card__image">
               <% if building.photos.attached? %>
@@ -57,4 +57,5 @@
     </div>
   </div>
 </section>
+
 

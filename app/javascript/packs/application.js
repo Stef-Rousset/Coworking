@@ -31,6 +31,7 @@ import { services } from '../components/services' ;
 import { linksToDiscountForm } from '../components/linksToDiscountForm' ;
 import { customModal } from '../components/customModal' ;
 import { homeSearchForm } from '../components/homeSearchForm' ;
+import { buildingCardsTranslate } from '../components/buildingCardsTranslate' ;
 import { fullCalendar } from '../plugins/fullCalendar' ;
 
 document.addEventListener('turbolinks:load', () => {
@@ -42,4 +43,5 @@ document.addEventListener('turbolinks:load', () => {
   linksToDiscountForm();
   customModal();
   homeSearchForm();
+  buildingCardsTranslate();
 });

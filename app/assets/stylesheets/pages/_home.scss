@@ -83,6 +83,12 @@
   margin-bottom: 2rem;
   background-color: white;
 }
+.translate-building-card-left {
+  animation: translate-left 1500ms 700ms both;
+}
+.translate-building-card-right {
+  animation: translate-right 1500ms 700ms both;
+}
 .building-card a {
   display: flex;
   color: black;
@@ -96,4 +102,24 @@
 
 }
 
+@keyframes translate-left {
+  0% {
+    transform: translateX(-40px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+@keyframes translate-right {
+  0% {
+    transform: translateX(40px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
 
