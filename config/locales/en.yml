@@ -46,7 +46,7 @@ en:
         office_type: "Office's type"
   shared:
     navbar:
-      language: "Select your language"
+      language: "🇬🇧"
     banner:
       banner-main-title: "Welcome at CoWorking"
       banner-subtitle: "The tech coworking specialist"
@@ -58,6 +58,7 @@ en:
           a community of professionals who resemble you. We offer you
           to book a private office or to book a workstation within
           our shared spaces."
+      intro-button: "Find your work space"
       services-title: "Our services"
       services-text_html: "Our coworking spaces are fully equipped, you can get down to business as soon as you arrive !<br>
            We put at your disposal:"
@@ -68,7 +69,6 @@ en:
             <li>Relaxation area</li>
             <li>fast food area</li>
             <li>And a lot more...</li>"
-      buildings-search-title: "Search by location"
       buildings-search-search: "Search"
       buildings-search-results: "Results"
       buildings-title: "Discover our different spaces"

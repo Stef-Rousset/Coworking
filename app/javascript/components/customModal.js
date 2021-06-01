@@ -1,12 +1,7 @@
 const customModal = () => {
 
   let validateDiscountsButtons = document.querySelectorAll('.validate-discount');
-
-  //let customModals = document.querySelectorAll('.custom-modal');
-
   let discountTags = document.querySelectorAll('.fa-tag');
-  //let modalCloseButtons = document.querySelectorAll('.close-custom-modal');
-
 
   if (validateDiscountsButtons) {
     function hasClass(elem, className) {
@@ -16,7 +11,7 @@ const customModal = () => {
     let modalCloseButton;
     let customModals;
     let customModal;
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', event => {
         if (hasClass(event.target, 'fa-tag')) {
             customModals = document.querySelectorAll('.custom-modal');
             modalCloseButtons = document.querySelectorAll('.close-custom-modal');

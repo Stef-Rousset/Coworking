@@ -32,7 +32,7 @@
         </div>
         <%= submit_tag 'Rechercher', class: 'btn btn-secondary offices-search-form-button' %>
       <% end %>
-        <div class="offices-clear-search">
+        <div class="offices-clear-search" data-turbolinks="false">
           <% if params[:discount].present? || params[:office_price_min].present? ||
                 params[:office_price_max].present? || params[:discount_max].present? ||
                 params[:discount_min].present? ||  params[:date].present?%>
@@ -42,7 +42,11 @@
     </div>
     <div class="offices-details">
       <% @offices.each do |office| %>
-        <div class="office-card">
+        <% if current_user.admin?  %>
+          <div class="office-card" style="height: auto">
+        <% else %>
+          <div class="office-card" style="height: 20vh">
+        <% end %>
           <div class="office-card__title">
             <h3 class="office-card__title<%= office.id %>"><%= office.name.capitalize %></h3>
               <% if current_user.admin? && !office.discounts.empty? %>
