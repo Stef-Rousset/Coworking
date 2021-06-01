@@ -15,7 +15,7 @@ fr:
         office_type: "Type de bureau"
   shared:
     navbar:
-      language: "Choisis ta langue"
+      language: "🇫🇷"
     banner:
       banner-main-title: "Bienvenue chez CoWorking"
       banner-subtitle: "Le spécialiste du coworking tech"

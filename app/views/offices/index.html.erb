@@ -42,7 +42,11 @@
     </div>
     <div class="offices-details">
       <% @offices.each do |office| %>
-        <div class="office-card">
+        <% if current_user.admin?  %>
+          <div class="office-card" style="height: auto">
+        <% else %>
+          <div class="office-card" style="height: 20vh">
+        <% end %>
           <div class="office-card__title">
             <h3 class="office-card__title<%= office.id %>"><%= office.name.capitalize %></h3>
               <% if current_user.admin? && !office.discounts.empty? %>

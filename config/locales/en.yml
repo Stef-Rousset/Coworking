@@ -46,7 +46,7 @@ en:
         office_type: "Office's type"
   shared:
     navbar:
-      language: "Select your language"
+      language: "🇬🇧"
     banner:
       banner-main-title: "Welcome at CoWorking"
       banner-subtitle: "The tech coworking specialist"

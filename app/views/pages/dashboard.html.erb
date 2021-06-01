@@ -1,267 +1,305 @@
 <h1>Dashboard</h1>
-<div class="dashboard-profile">
-  <h2>Ton profil</h2>
-  <div class="dashboard-profile__infos">
-    <p>Identité : <%= current_user.first_name.capitalize %> <%= current_user.last_name.capitalize %></p>
-    <p>Email : <%= current_user.email %> </p>
-    <div class="dashboard-profile__links">
-      <%= link_to link_to '<i class="far fa-edit"></i>'.html_safe, edit_user_registration_path %>
-    </div>
-  </div>
-</div>
-<!-- vue admin -->
 <% if current_user.admin? %>
-  <div class="dashboard-title">
-    <h2>Les immeubles</h2>
-    <%= link_to "Ajouter un immeuble", new_building_path, class: 'btn btn-secondary' %>
-  </div>
-  <div class="dashboard-list">
-    <% @buildings.each do |building| %>
-      <div class="dashboard-building">
-        <h3><%= building.name %></h3>
-        <div class="dashboard-building__links">
-          <%= link_to '<i class="far fa-edit"></i>'.html_safe, edit_building_path(building) %>
-          <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, building_path(building), method: :delete, data: { confirm: "Are you sure?" } %>
-          <%= link_to "Voir les bureaux", building_offices_path(building) %>
-        </div>
-        <div class="dashboard-building__stats">
-          <h4>Statistiques</h4>
-          <p>Nombre total de réservations :
-            <%#= building.offices.total_bookings %>
-            <%= number_of_bookings_by_building = Building.where(id: building.id)
-                                                   .joins(offices: :bookings).size %>
-          </p>
-          <p>Réservations en bureau privé :
-            <%#= building.offices.privates_bookings %>
-            <%= Building.where(id: building.id).joins(offices: :bookings)
-                        .where(offices: { office_type: 1 }).count %>
-          </p>
-          <p>Réservations en cowork :
-            <%#= building.offices.coworks_bookings %>
-            <%= Building.where(id: building.id).joins(offices: :bookings)
-                        .where(offices: { office_type: 2 }).count %>
-          </p>
-            <%# seven_days = [] %>
-            <%# total = [] %>
-            <%# cafés = [] %>
-            <%# thés = [] %>
-            <%# impressions = [] %>
-            <%# scans = [] %>
-            <%# building.offices.each do |office| %>
-              <%# seven_days << office.bookings.last_seven_days_bookings %>
-              <%# total << office.bookings.total_number_of_services %>
-              <%# cafés << office.bookings.service_count("café") %>
-              <%# thés << office.bookings.service_count("thé")%>
-              <%# impressions << office.bookings.service_count("impression")%>
-              <%# scans << office.bookings.service_count("scan")%>
-            <%# end %>
-            <p>Réservations des 7 derniers jours :
-              <%#= seven_days.sum %>
-              <% seven_days_ago = (Time.now.end_of_day - 7.day)..Time.now.end_of_day %>
-              <%= Building.where(id: building.id).joins(offices: :bookings)
-                          .where(bookings: { created_at: seven_days_ago }).count %></p>
-            <p>Durée moyenne d'une réservation :
-              <%# average_duration = [] %>
-              <%# building.offices.each do |office| %>
-                <%# office.bookings.each do |booking| %>
-                  <%# average_duration << booking.dates_booked.count %>
-                <%# end %>
-              <%# end %>
-              <%# average = average_duration.sum / building.offices.total_bookings %>
-              <%#= average > 1 ? average.to_s + ' jours' : average.to_s + ' jour' %>
-              <% array = Building.where(id: building.id).joins(offices: :bookings).pluck(:start_date, :end_date) %>
-              <% average = [] %>
-              <% array.each do |sub_array| %>
-                <% duration = (sub_array[0]..sub_array[1]).count %>
-                <% average << duration %>
-              <% end %>
-              <% if number_of_bookings_by_building == 0 %>
-                <%= result = 0 %>
-              <% else %>
-                <% result = average.sum / number_of_bookings_by_building %>
-                <%= result > 1 ? result.to_s + ' jours' : result.to_s + ' jour' %>
-              <% end %>
-            </p>
-            <p>Nombre total de clients différents :
-              <%= Building.where(id: building.id).joins(offices: :bookings).distinct
-                  .pluck(:user_id).size %>
-            </p>
-            <p>Total des services réservés :
-              <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
-                          .pluck(:quantity).sum %>
-              </p>
-            <ul>
-              <li>cafés :
-                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
-                            .where(services: { name: "café" }).pluck(:quantity).sum %>
-
-              </li>
-              <li>thés :
-                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
-                            .where(services: { name: "thé" }).pluck(:quantity).sum %>
-              </li>
-              <li>impressions :
-                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
-                            .where(services: { name: "impression" }).pluck(:quantity).sum %>
-              </li>
-              <li>scans :
-                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
-                            .where(services: { name: "scan" }).pluck(:quantity).sum %>
-              </li>
-            </ul>
-        </div>
+  <div class="dashboard-container">
+<% else %>
+  <div class="dashboard-container" style="display: flex, justify-content: space-around">
+<% end %>
+  <div class="dashboard-profile">
+    <h2>Profil</h2>
+    <div class="dashboard-profile__infos">
+      <p><span class="bold">Identité :</span>  <%= current_user.first_name.capitalize %> <%= current_user.last_name.capitalize %></p>
+      <p><span class="bold">Email :</span> <%= current_user.email %> </p>
+      <div class="dashboard-profile__links">
+        <%= link_to link_to '<i class="far fa-edit"></i>'.html_safe, edit_user_registration_path %>
+      </div>
+    </div>
+    <% if !current_user.admin? %>
+      <h2>Statistiques de réservations</h2>
+      <div class="dashboard-profile__resas-stats">
+        <p><span class="bold">Nombre de réservations :</span> <%= @bookings.count %> </p>
+        <p><span class="bold">Prix moyen :</span>
+          <% booking_price_array = [] %>
+            <% @bookings.each do |booking| %>
+            <% booking_price_array << booking.price %>
+          <% end %>
+          <%= (booking_price_array.select{ |el| el.class == Float }.sum / @bookings.count).truncate(2) %> €
+          <!-- enlever les valuers nil existant sur les booking av l'ajout de la colonne prix -->
+        </p>
+        <p><span class="bold">Durée moyenne :</span>
+          <% booking_dates_array = [] %>
+            <% @bookings.each do |booking| %>
+            <% booking_dates_array << booking.dates_booked.count %>
+          <% end %>
+          <%= (booking_dates_array.sum.to_f / @bookings.count).truncate(2) %> jour(s)
+        </p>
+        <%= link_to 'Stats', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
       </div>
     <% end %>
-    <h2>One building with Arel</h2>
-      <% offices = Office.arel_table %>
-      <% bookings = Booking.arel_table %>
-      <% buildings = Building.arel_table %>
-      <p>Nombre total de bookings :
-        <% office_bookings_join = offices.join(bookings).on(offices[:id].eq(bookings[:office_id])).join_sources %>
-        <% number_of_bookings = Office.joins(office_bookings_join).pluck(bookings[:id].count) %>
-        <%= number_of_bookings.join('') %>
-      </p>
-      <p>Nombre total de bureaux :
-      <% total_number_of_offices = offices.project(offices[:id]).to_sql %>
-      <%= Office.find_by_sql(total_number_of_offices).size %>
-      </p>
-      <p>Espace Foch :</p>
-      <p>-> Nombre de bureaux :
-      <% building_offices_join = buildings.join(offices).on(buildings[:id].eq(offices[:building_id])).join_sources %>
-      <%= Building.where(buildings[:name].eq('Espace Foch'))
-                  .joins(building_offices_join)
-                  .pluck(offices[:id].count).join('') %>
-      </p>
-      <p>-> Nombre de réservations :
-      <%= number_of_bookings_by_building_with_arel =
-          Building.where(buildings[:name].eq('Espace Foch'))
-                  .joins(building_offices_join)
-                  .joins(office_bookings_join)
-                  .pluck(bookings[:id].count).join('') %>
-      </p>
-      <p>- en bureau privé :
+  </div>
+  <!-- vue admin -->
+  <% if current_user.admin? %>
+    <div class="dashboard-title">
+      <h2>Les immeubles</h2>
+      <%= link_to "Ajouter un immeuble", new_building_path, class: 'btn btn-secondary' %>
+    </div>
+    <div class="dashboard-list">
+      <% @buildings.each do |building| %>
+        <div class="dashboard-building">
+          <h3><%= building.name %></h3>
+          <div class="dashboard-building__links">
+            <%= link_to '<i class="far fa-edit"></i>'.html_safe, edit_building_path(building) %>
+            <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, building_path(building), method: :delete, data: { confirm: "Are you sure?" } %>
+            <%= link_to "Voir les bureaux", building_offices_path(building) %>
+          </div>
+          <div class="dashboard-building__stats">
+            <h4>Statistiques</h4>
+            <p>Nombre total de réservations :
+              <%#= building.offices.total_bookings %>
+              <%= number_of_bookings_by_building = Building.where(id: building.id)
+                                                     .joins(offices: :bookings).size %>
+            </p>
+            <p>Réservations en bureau privé :
+              <%#= building.offices.privates_bookings %>
+              <%= Building.where(id: building.id).joins(offices: :bookings)
+                          .where(offices: { office_type: 1 }).count %>
+            </p>
+            <p>Réservations en cowork :
+              <%#= building.offices.coworks_bookings %>
+              <%= Building.where(id: building.id).joins(offices: :bookings)
+                          .where(offices: { office_type: 2 }).count %>
+            </p>
+              <%# seven_days = [] %>
+              <%# total = [] %>
+              <%# cafés = [] %>
+              <%# thés = [] %>
+              <%# impressions = [] %>
+              <%# scans = [] %>
+              <%# building.offices.each do |office| %>
+                <%# seven_days << office.bookings.last_seven_days_bookings %>
+                <%# total << office.bookings.total_number_of_services %>
+                <%# cafés << office.bookings.service_count("café") %>
+                <%# thés << office.bookings.service_count("thé")%>
+                <%# impressions << office.bookings.service_count("impression")%>
+                <%# scans << office.bookings.service_count("scan")%>
+              <%# end %>
+              <p>Réservations des 7 derniers jours :
+                <%#= seven_days.sum %>
+                <% seven_days_ago = (Time.now.end_of_day - 7.day)..Time.now.end_of_day %>
+                <%= Building.where(id: building.id).joins(offices: :bookings)
+                            .where(bookings: { created_at: seven_days_ago }).count %></p>
+              <p>Durée moyenne d'une réservation :
+                <%# average_duration = [] %>
+                <%# building.offices.each do |office| %>
+                  <%# office.bookings.each do |booking| %>
+                    <%# average_duration << booking.dates_booked.count %>
+                  <%# end %>
+                <%# end %>
+                <%# average = average_duration.sum / building.offices.total_bookings %>
+                <%#= average > 1 ? average.to_s + ' jours' : average.to_s + ' jour' %>
+                <% array = Building.where(id: building.id).joins(offices: :bookings).pluck(:start_date, :end_date) %>
+                <% average = [] %>
+                <% array.each do |sub_array| %>
+                  <% duration = (sub_array[0]..sub_array[1]).count %>
+                  <% average << duration %>
+                <% end %>
+                <% if number_of_bookings_by_building == 0 %>
+                  <%= result = 0 %>
+                <% else %>
+                  <% result = average.sum / number_of_bookings_by_building %>
+                  <%= result > 1 ? result.to_s + ' jours' : result.to_s + ' jour' %>
+                <% end %>
+              </p>
+              <p>Nombre total de clients différents :
+                <%= Building.where(id: building.id).joins(offices: :bookings).distinct
+                    .pluck(:user_id).size %>
+              </p>
+              <p>Total des services réservés :
+                <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                            .pluck(:quantity).sum %>
+                </p>
+              <ul>
+                <li>cafés :
+                  <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                              .where(services: { name: "café" }).pluck(:quantity).sum %>
+
+                </li>
+                <li>thés :
+                  <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                              .where(services: { name: "thé" }).pluck(:quantity).sum %>
+                </li>
+                <li>impressions :
+                  <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                              .where(services: { name: "impression" }).pluck(:quantity).sum %>
+                </li>
+                <li>scans :
+                  <%= Building.where(id: building.id).joins(offices: { service_bookings: :service })
+                              .where(services: { name: "scan" }).pluck(:quantity).sum %>
+                </li>
+              </ul>
+          </div>
+        </div>
+      <% end %>
+      <h2>One building with Arel</h2>
+        <% offices = Office.arel_table %>
+        <% bookings = Booking.arel_table %>
+        <% buildings = Building.arel_table %>
+        <p>Nombre total de bookings :
+          <% office_bookings_join = offices.join(bookings).on(offices[:id].eq(bookings[:office_id])).join_sources %>
+          <% number_of_bookings = Office.joins(office_bookings_join).pluck(bookings[:id].count) %>
+          <%= number_of_bookings.join('') %>
+        </p>
+        <p>Nombre total de bureaux :
+        <% total_number_of_offices = offices.project(offices[:id]).to_sql %>
+        <%= Office.find_by_sql(total_number_of_offices).size %>
+        </p>
+        <p>Espace Foch :</p>
+        <p>-> Nombre de bureaux :
+        <% building_offices_join = buildings.join(offices).on(buildings[:id].eq(offices[:building_id])).join_sources %>
         <%= Building.where(buildings[:name].eq('Espace Foch'))
                     .joins(building_offices_join)
+                    .pluck(offices[:id].count).join('') %>
+        </p>
+        <p>-> Nombre de réservations :
+        <%= number_of_bookings_by_building_with_arel =
+            Building.where(buildings[:name].eq('Espace Foch'))
+                    .joins(building_offices_join)
                     .joins(office_bookings_join)
-                    .where(offices[:office_type].eq(2))    #ou aussi .merge(Office.where(office_type: 1))
                     .pluck(bookings[:id].count).join('') %>
-      </p>
-      <p>- en cowork :
+        </p>
+        <p>- en bureau privé :
+          <%= Building.where(buildings[:name].eq('Espace Foch'))
+                      .joins(building_offices_join)
+                      .joins(office_bookings_join)
+                      .where(offices[:office_type].eq(2))    #ou aussi .merge(Office.where(office_type: 1))
+                      .pluck(bookings[:id].count).join('') %>
+        </p>
+        <p>- en cowork :
+          <%= Building.where(buildings[:name].eq('Espace Foch'))
+                      .joins(building_offices_join)
+                      .joins(office_bookings_join)
+                      .where(offices[:office_type].eq(2))
+                      .pluck(bookings[:id].count).join('') %>
+        </p>
+        <p>-> Réservations des 7 derniers jours:
+          <%= Building.where(buildings[:name].eq('Espace Foch'))
+                      .joins(building_offices_join)
+                      .joins(office_bookings_join)
+                      .where(bookings[:created_at].gteq(Time.now.end_of_day - 7.day)).size %>
+        </p>
+        <p>-> Durée moyenne d'une réservation :
+          <% array_arel = Building.where(buildings[:name].eq('Espace Foch'))
+                             .joins(building_offices_join)
+                             .joins(office_bookings_join)
+                             .pluck(bookings[:start_date], bookings[:end_date])%>
+          <% average_arel = [] %>
+          <% array_arel.each do |sub_array| %>
+            <% duration_arel = (sub_array[0]..sub_array[1]).count %>
+            <% average_arel << duration_arel %>
+          <% end %>
+          <% result_arel = average_arel.sum / number_of_bookings_by_building_with_arel.to_i %>
+          <%= result_arel > 1 ? result_arel.to_s + ' jours' : result_arel.to_s + ' jour' %>
+        </p>
+        <p>-> Nombre total de clients différents :
+          <%= Building.where(buildings[:name].eq('Espace Foch'))
+                      .joins(building_offices_join)
+                      .joins(office_bookings_join)
+                      .pluck(bookings[:user_id]).uniq.size %>
+        </p>
+        <p>-> Total des services réservés :
+        <% service_bookings = ServiceBooking.arel_table %>
+        <% booking_service_bookings_join = bookings.join(service_bookings).on(bookings[:id].eq(service_bookings[:booking_id])).join_sources %>
         <%= Building.where(buildings[:name].eq('Espace Foch'))
-                    .joins(building_offices_join)
-                    .joins(office_bookings_join)
-                    .where(offices[:office_type].eq(2))
-                    .pluck(bookings[:id].count).join('') %>
-      </p>
-      <p>-> Réservations des 7 derniers jours:
-        <%= Building.where(buildings[:name].eq('Espace Foch'))
-                    .joins(building_offices_join)
-                    .joins(office_bookings_join)
-                    .where(bookings[:created_at].gteq(Time.now.end_of_day - 7.day)).size %>
-      </p>
-      <p>-> Durée moyenne d'une réservation :
-        <% array_arel = Building.where(buildings[:name].eq('Espace Foch'))
-                           .joins(building_offices_join)
-                           .joins(office_bookings_join)
-                           .pluck(bookings[:start_date], bookings[:end_date])%>
-        <% average_arel = [] %>
-        <% array_arel.each do |sub_array| %>
-          <% duration_arel = (sub_array[0]..sub_array[1]).count %>
-          <% average_arel << duration_arel %>
-        <% end %>
-        <% result_arel = average_arel.sum / number_of_bookings_by_building_with_arel.to_i %>
-        <%= result_arel > 1 ? result_arel.to_s + ' jours' : result_arel.to_s + ' jour' %>
-      </p>
-      <p>-> Nombre total de clients différents :
-        <%= Building.where(buildings[:name].eq('Espace Foch'))
-                    .joins(building_offices_join)
-                    .joins(office_bookings_join)
-                    .pluck(bookings[:user_id]).uniq.size %>
-      </p>
-      <p>-> Total des services réservés :
-      <% service_bookings = ServiceBooking.arel_table %>
-      <% booking_service_bookings_join = bookings.join(service_bookings).on(bookings[:id].eq(service_bookings[:booking_id])).join_sources %>
-      <%= Building.where(buildings[:name].eq('Espace Foch'))
+                      .joins(building_offices_join)
+                      .joins(office_bookings_join)
+                      .joins(booking_service_bookings_join)
+                      .pluck(service_bookings[:quantity]).sum %>
+        </p>
+        <p>- cafés :
+          <% services = Service.arel_table %>
+          <% service_bookings_service_join = service_bookings.join(services).on(service_bookings[:service_id].eq(services[:id])).join_sources%>
+          <%= Building.where(buildings[:name].eq('Espace Foch'))
                     .joins(building_offices_join)
                     .joins(office_bookings_join)
                     .joins(booking_service_bookings_join)
+                    .joins(service_bookings_service_join)
+                    .where(services[:name].eq('café'))
                     .pluck(service_bookings[:quantity]).sum %>
-      </p>
-      <p>- cafés :
-        <% services = Service.arel_table %>
-        <% service_bookings_service_join = service_bookings.join(services).on(service_bookings[:service_id].eq(services[:id])).join_sources%>
-        <%= Building.where(buildings[:name].eq('Espace Foch'))
-                  .joins(building_offices_join)
-                  .joins(office_bookings_join)
-                  .joins(booking_service_bookings_join)
-                  .joins(service_bookings_service_join)
-                  .where(services[:name].eq('café'))
-                  .pluck(service_bookings[:quantity]).sum %>
-      </p>
-      <h2>All buildings with Arel</h2>
-        <%= render "building_stats" %>
-      <h2>Liste de tous les buildings avec les noms des bureaux qui fonctionne même si l'immeuble n'a pas de bureau</h2>
-        <% buildings = Building.arel_table %>
-        <% offices = Office.arel_table %>
-        <% my_join = buildings.join(offices, Arel::Nodes::OuterJoin).on(buildings[:id].eq(offices[:building_id])).join_sources %>
-        <p>
-        <%#= my_array = Building.joins(my_join).order(buildings[:id].asc).pluck(buildings[:name], offices[:name]) %>
         </p>
-        <p> Bureaux de l'espace Foch :
-        <%= foch_array = Building.joins(my_join).where(buildings[:name].eq("Espace Foch")).pluck(offices[:name]).join(', ') %>
-        </p>
-        <p>Bureaux de l'espace Opera :
-          <%= Building.list_of_offices("Espace Opera").empty? ? "pas de bureaux" : Building.list_of_offices("Espace Opera").join(', ')%>
-        </p>
-        <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
-      <h2 class="exports">Exports excel et pdf</h2>
-        <%= link_to 'Stats buildings', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
-        <%= link_to 'Download stats as pdf', dashboard_path(format: "pdf"), class: 'btn btn-secondary import-pdf' %>
-        <%#= link_to "Building stats as pdf", building_stats_as_pdf_path(format: "pdf"), target: "_blank", class: 'btn btn-secondary import-pdf' %>
-  </div>
-  <!-- vue user -->
-<% else %>
-  <h2>Tes réservations</h2>
-  <div class="reservations">
-    <% @last_five_bookings.each do |booking| %>
-      <div class="reservations-card">
-        <ul>
-          <li> > <%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
-          <li>du <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
-          <li class="user_booking_price">prix :
-              <%= booking.price == nil ? 0 : rounded_number(booking.price, 1) %>€
-
-           </li>
-        </ul>
-      </div>
-    <% end %>
-    <button class="all-bookings btn btn-secondary">Voir plus ▽ </button>
-    <% @bookings[0...-5].reverse.each do |booking| %>
-      <div class="reservations-card-hide">
+        <h2>All buildings with Arel</h2>
+          <%= render "building_stats" %>
+        <h2>Liste de tous les buildings avec les noms des bureaux qui fonctionne même si l'immeuble n'a pas de bureau</h2>
+          <% buildings = Building.arel_table %>
+          <% offices = Office.arel_table %>
+          <% my_join = buildings.join(offices, Arel::Nodes::OuterJoin).on(buildings[:id].eq(offices[:building_id])).join_sources %>
+          <p>
+          <%#= my_array = Building.joins(my_join).order(buildings[:id].asc).pluck(buildings[:name], offices[:name]) %>
+          </p>
+          <p> Bureaux de l'espace Foch :
+          <%= foch_array = Building.joins(my_join).where(buildings[:name].eq("Espace Foch")).pluck(offices[:name]).join(', ') %>
+          </p>
+          <p>Bureaux de l'espace Opera :
+            <%= Building.list_of_offices("Espace Opera").empty? ? "pas de bureaux" : Building.list_of_offices("Espace Opera").join(', ')%>
+          </p>
+          <p>Bureaux de l'espace Chatelet :<%= Building.list_of_offices("Espace Chatelet").join(', ') %></p>
+        <h2 class="exports">Exports excel et pdf</h2>
+          <%= link_to 'Stats', dashboard_path(format: :xlsx), class: 'btn btn-secondary import-xl' %>
+          <%= link_to 'Download stats as pdf', dashboard_path(format: "pdf"), class: 'btn btn-secondary import-pdf' %>
+          <%#= link_to "Building stats as pdf", building_stats_as_pdf_path(format: "pdf"), target: "_blank", class: 'btn btn-secondary import-pdf' %>
+    </div>
+    <!-- vue user -->
+  <% else %>
+    <div class="reservations">
+      <h2>Réservations</h2>
+      <% @last_four_bookings.each do |booking| %>
+        <div class="reservations-card">
           <ul>
-            <li> > <%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
-            <li>du <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
-            <li class="user_booking_price">prix :
+            <li class="reservations-card__title"><%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
+            <li><i class="far fa-calendar-alt"></i> <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
+            <li class="user_booking_price"><i class="far fa-money-bill-alt" ></i>
                 <%= booking.price == nil ? 0 : rounded_number(booking.price, 1) %>€
+            </li>
+            <li>
+              <% if booking.end_date < Date.today %>
+                <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, booking_path(booking), method: :delete, data: { confirm: 'Are you sure ?'} %>
+              <% end %>
             </li>
           </ul>
         </div>
-    <% end %>
-  </div>
-<% end %>
-
+      <% end %>
+      <button class="all-bookings btn btn-secondary">Voir plus ▽ </button>
+      <% @bookings[0...-4].reverse.each do |booking| %>
+        <div class="reservations-card-hide">
+            <ul>
+              <li class="reservations-card__title"><%= booking.office.name.capitalize %>, <%= booking.office.building.name %> </li>
+              <li><i class="far fa-calendar-alt"></i> <%= booking.start_date.strftime("%e/%m/%Y") %> au <%= booking.end_date.strftime("%e/%m/%Y") %> </li>
+              <li class="user_booking_price"><i class="far fa-money-bill-alt" ></i>
+                  <%= booking.price == nil ? 0 : rounded_number(booking.price, 1) %>€
+              </li>
+              <li>
+                <% if booking.end_date < Date.today %>
+                  <%= link_to '<i class="far fa-trash-alt"></i>'.html_safe, booking_path(booking), method: :delete, data: { confirm: 'Are you sure ?'} %>
+                <% end %>
+              </li>
+            </ul>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 <script>
   allBookingsButton = document.querySelector('.all-bookings');
   bookingsCards = document.querySelectorAll('.reservations-card-hide');
-  allBookingsButton.addEventListener('click', event => {
-      if (allBookingsButton.innerText === 'Voir plus ▽') {
-          allBookingsButton.innerText = 'Voir moins △';
-      } else if (allBookingsButton.innerText === 'Voir moins △'){
-        allBookingsButton.innerText = 'Voir plus ▽';
-      }
-      bookingsCards.forEach(bookingCard => {
-        bookingCard.classList.toggle('reservations-card-hide');
-        bookingCard.classList.toggle('reservations-card');
+  if (allBookingsButton) {
+      allBookingsButton.addEventListener('click', event => {
+          if (allBookingsButton.innerText === 'Voir plus ▽') {
+              allBookingsButton.innerText = 'Voir moins △';
+          } else if (allBookingsButton.innerText === 'Voir moins △'){
+            allBookingsButton.innerText = 'Voir plus ▽';
+          }
+          bookingsCards.forEach(bookingCard => {
+            bookingCard.classList.toggle('reservations-card-hide');
+            bookingCard.classList.toggle('reservations-card');
+          });
       });
-  });
+  }
 </script>

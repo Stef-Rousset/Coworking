@@ -1,41 +1,87 @@
 wb = xlsx_package.workbook
-wb.styles do |style|
-  header = style.add_style(bg_color: "aad8d3",
-                                   sz: 18,
-                                   b: true,
-                                   alignment: { horizontal: :center })
-  highlight_cell = style.add_style(bg_color: "aad8d3",
-                                   border: Axlsx::STYLE_THIN_BORDER,
-                                   alignment: { horizontal: :center })
-  first_column_cell = style.add_style(b: true)
-  normal_cell = style.add_style(alignment: { horizontal: :center })
-  date_cell = style.add_style(format_code: "yyyy-mm-dd", alignment: { horizontal: :center })
-  two_digit_cell = style.add_style(format_code: "#,##0.00", alignment: { horizontal: :center })
 
-  wb.add_worksheet(name: "Buildings") do |sheet|
-    sheet.add_row
-    sheet.add_row ['Buildings stats'], style: header
-    sheet.add_row
-    sheet.add_row ["Nom du Building", "Date de création", "Nombre de bureaux", "Nombre total de réservations"], style: highlight_cell
-    @buildings.each_with_index do |building, index|
-      sheet.add_row [building.name, building.created_at, building.offices.size, Building.total_number_of_services[index]],
-                    style: [first_column_cell, date_cell, normal_cell, normal_cell]
+if current_user.admin?
+  wb.styles do |style|
+    header = style.add_style(bg_color: "aad8d3",
+                                     sz: 18,
+                                     b: true,
+                                     alignment: { horizontal: :center })
+    highlight_cell = style.add_style(bg_color: "aad8d3",
+                                     border: Axlsx::STYLE_THIN_BORDER,
+                                     alignment: { horizontal: :center })
+    first_column_cell = style.add_style(b: true)
+    normal_cell = style.add_style(alignment: { horizontal: :center })
+    date_cell = style.add_style(format_code: "yyyy-mm-dd", alignment: { horizontal: :center })
+    two_digit_cell = style.add_style(format_code: "#,##0.00", alignment: { horizontal: :center })
+
+    wb.add_worksheet(name: "Buildings") do |sheet|
+      sheet.add_row
+      sheet.add_row ['Buildings stats'], style: header
+      sheet.add_row
+      sheet.add_row ["Nom du Building", "Date de création", "Nombre de bureaux", "Nombre total de réservations"], style: highlight_cell
+      @buildings.each_with_index do |building, index|
+        sheet.add_row [building.name, building.created_at, building.offices.size, Building.total_number_of_services[index]],
+                      style: [first_column_cell, date_cell, normal_cell, normal_cell]
+      end
+      sheet.add_row
+      sheet.add_row ["Totaux","", "=SUM(C5:C8)", "=SUM(D5:D8)"], style: [first_column_cell, nil, normal_cell, normal_cell]
+      sheet.add_row ["Moyennes", "", "=AVERAGE(C5:C8)", "=AVERAGE(D5:D8)"], style: [first_column_cell, nil, two_digit_cell, two_digit_cell]
+
+      sheet.merge_cells('A2:D2')
     end
-    sheet.add_row
-    sheet.add_row ["Totaux","", "=SUM(C5:C8)", "=SUM(D5:D8)"], style: [first_column_cell, nil, normal_cell, normal_cell]
-    sheet.add_row ["Moyennes", "", "=AVERAGE(C5:C8)", "=AVERAGE(D5:D8)"], style: [first_column_cell, nil, two_digit_cell, two_digit_cell]
 
-    sheet.merge_cells('A2:D2')
+    wb.add_worksheet(name: "Bureaux Espace Foch") do |sheet|
+      sheet.add_row
+      sheet.add_row ['Bureaux Espace Foch'], style: header
+      sheet.add_row
+      sheet.add_row ['Nom du bureau', 'Nombre de places', 'Nombre de réervations'], style: highlight_cell
+      @building.offices.each do |office|
+        sheet.add_row [office.name, office.places_number, office.bookings.size], style: normal_cell
+      end
+      sheet.merge_cells('A2:C2')
+    end
   end
 
-  wb.add_worksheet(name: "Bureaux Espace Foch") do |sheet|
-    sheet.add_row
-    sheet.add_row ['Bureaux Espace Foch'], style: header
-    sheet.add_row
-    sheet.add_row ['Nom du bureau', 'Nombre de places', 'Nombre de réervations'], style: highlight_cell
-    @building.offices.each do |office|
-      sheet.add_row [office.name, office.places_number, office.bookings.size], style: normal_cell
+else
+  wb.styles do |style|
+    header = style.add_style(bg_color: "aad8d3",
+                                     sz: 18,
+                                     b: true,
+                                     alignment: { horizontal: :center, vertical: :center })
+    header_table = style.add_style(bg_color: "9ebced",
+                                   sz: 14,
+                                   b: true)
+    border_cell_title = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                        b: true,)
+    border_cell_normal = style.add_style(border: Axlsx::STYLE_THIN_BORDER)
+    wb.add_worksheet(name: "Bookings chart") do |sheet|
+      sheet.add_row
+      sheet.add_row ['Booking stats'], style: header, height: 30
+      sheet.merge_cells('A2:K2')
+      sheet.merge_cells('A3:B3')
+      sheet.merge_cells('A7:B7')
+      booking_prices_array = []
+      booking_dates_array = []
+      @bookings.each do |booking|
+        booking_prices_array << booking.price
+        booking_dates_array << booking.dates_booked.count
+      end
+      sheet.add_row ['Prix (€)'], style: header_table
+      sheet.add_row ['Prix min', booking_prices_array.select{ |el| el.class == Float }.min], style: [border_cell_title, border_cell_normal]
+      sheet.add_row ['Prix moyen', (booking_prices_array.select{ |el| el.class == Float }.sum / @bookings.count).truncate(2)], style: [border_cell_title, border_cell_normal]
+      sheet.add_row ['Prix max', booking_prices_array.select{ |el| el.class == Float }.max], style: [border_cell_title, border_cell_normal]
+      sheet.add_row ['Durée (jours)'], style: header_table
+      sheet.add_row ['Durée min', booking_dates_array.min], style: [border_cell_title, border_cell_normal]
+      sheet.add_row ['Durée moyenne', (booking_dates_array.sum.to_f / @bookings.count).truncate(2)], style: [border_cell_title, border_cell_normal]
+      sheet.add_row ['Durée max', booking_dates_array.max], style: [border_cell_title, border_cell_normal]
+
+      sheet.add_chart(Axlsx::BarChart, start_at: 'B12', end_at: 'K28') do |chart|
+        chart.add_series data: sheet['B4:B6'], labels: sheet['A4:A6'], title: sheet['A3'] ,  colors: ['f7ceaa', '9ebced', 'a8f4de']
+      end
+
+      sheet.add_chart(Axlsx::BarChart, start_at: 'B29', end_at: 'K43') do |chart|
+        chart.add_series data: sheet['B8:B10'], labels: sheet['A8:A10'], title: sheet['A7'],  colors: ['f7ceaa', '9ebced', 'a8f4de']
+      end
     end
-    sheet.merge_cells('A2:C2')
   end
 end
