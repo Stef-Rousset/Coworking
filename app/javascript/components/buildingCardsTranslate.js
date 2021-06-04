@@ -7,7 +7,7 @@ const buildingCardsTranslate = () => {
         window.addEventListener('scroll', event => {
           if (window.pageYOffset >= 650 && buildingCard.dataset.index % 2 === 0) {
               buildingCard.classList.add('translate-building-card-left');
-          } else if (window.pageYOffset >= 550 && buildingCard.dataset.index % 2 != 0) {
+          } else if (window.pageYOffset >= 650 && buildingCard.dataset.index % 2 != 0) {
               buildingCard.classList.add('translate-building-card-right');
           }
         })

@@ -12,8 +12,10 @@ class Building < ApplicationRecord
   private
 
   def self.address_search(search)
+    buildings = Building.arel_table
     if search
-      where(["address ILIKE ?", "%#{search}%"])
+      # where(["address ILIKE ?", "%#{search}%"])
+      where(buildings[:address].matches("%#{search}%"))
     else
       return
     end
